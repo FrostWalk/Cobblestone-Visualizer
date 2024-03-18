@@ -1,0 +1,19 @@
+[package]
+name = "walle-visualizer"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+robotics_lib = { git = "ssh://github.com/Advanced-Programming-2023/Robotic-Lib", branch = "master" }
+message-io = { version = "0.18", default-features = false, features = ["tcp", "udp"] }
+
+
+[lib]
+name = "lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bin"
+path = "src/bin/main.rs"
