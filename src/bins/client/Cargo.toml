@@ -7,8 +7,8 @@ edition = "2021"
 
 [dependencies]
 walle-visualizer = {path = "../../.."}
-robotics_lib = { path = "../../../../Robotic-Lib" }
-exclusion_zone_world_generator = { path = "../../../../World-Generator" }
+robotics_lib = { path = "../../../Robotic-Lib" }
+exclusion_zone_world_generator = { path = "../../../World-Generator" }
 bincode = "1.3.3"
 tokio = { version = "1.37.0", features = ["rt", "rt-multi-thread", "macros"] }
 message-io = "0.18.1"

@@ -10,6 +10,6 @@ message-io = "0.18.1"
 bincode = "1.3.3"
 serde = { version = "1.0.197", features = ["derive"] }
 walle-visualizer = {path = "../../.."}
-robotics_lib = { path = "../../../../Robotic-Lib" }
-exclusion_zone_world_generator = { path = "../../../../World-Generator" }
+robotics_lib = { path = "../../../Robotic-Lib" }
+exclusion_zone_world_generator = { path = "../../../World-Generator" }
 tokio = { version = "1.37.0", features = ["rt", "rt-multi-thread", "macros"] }

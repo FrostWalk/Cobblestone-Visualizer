@@ -1,0 +1,8 @@
+/target/
+note.md
+.idea/
+/bin/target
+Cargo.lock
+*.png
+/.cargo/
+*.zst
