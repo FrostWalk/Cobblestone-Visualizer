@@ -13,6 +13,7 @@ time = "0.3.36"
 strum = "0.26.2"
 bevy = { version = "0.13.2", features = ["default", "dynamic_linking"] }
 bincode = "1.3.3"
+lazy_static = "1.4.0"
 
 [[bin]]
 name = "walle-visualizer"

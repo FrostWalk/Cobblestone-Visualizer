@@ -35,6 +35,5 @@ pub(crate) fn load_world(name: &str) -> Result<robotics_lib::world::world_genera
     let mut file_content = Vec::new();
 
     file.read_to_end(&mut file_content).map_err(|e| { format!("{}", e) })?;
-
     bincode::deserialize(&file_content).map_err(|e| { format!("{}", e) })?
 }

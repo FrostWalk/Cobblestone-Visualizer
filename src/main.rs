@@ -10,24 +10,9 @@ use crate::robot::Roomba;
 fn main() {
     
     let mut generator = OxAgWorldGenerator::builder().load("world").unwrap();
-
-    let mut run = Runner::new(
-        Box::new(Roomba {
-            robot: Robot::new(),
-        }),
-        &mut generator,
-    )
-        .unwrap();
-
+    
     App::new().run();
 
-    loop {
-        match run.game_tick() {
-            Ok(_) => {}
-            Err(e) => { println!("{:?}", e); }
-        }
-        thread::sleep(time::Duration::from_millis(500));
-
-    }
+   
 }
 
