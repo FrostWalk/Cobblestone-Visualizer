@@ -1,0 +1,18 @@
+[package]
+name = "oxagworldgenerator"
+version = "0.1.4"
+edition = "2021"
+authors = ["Filippo Lollato", "Giulio Pimenoff Verdolin", "Marco Basso"]
+publish = ["kellnr"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+robotics_lib = { path = "../Robotic-Lib" }
+rand = "0.8.5"
+noise = {version = "0.9.0" }
+strum = "0.26.2"
+time = "0.3.30"
+serde_json = "1.0.108"
+serde = "1.0.193"
+env_logger = "0.11.3"
