@@ -1,7 +1,0 @@
-/target/
-note.md
-.idea/
-/bin/target
-.cargo/
-Cargo.lock
-/bin/Cargo.lock
