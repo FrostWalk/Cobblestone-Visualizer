@@ -22,6 +22,5 @@ authors = [
 publish = ["kellnr"]
 description = "A tool to discover around your positions in a smart way"
 
-[dependencies.robotics_lib]
-version = "0.1.21"
-registry-index = "sparse+https://advancedprogramming.disi.unitn.it/api/v1/crates/"
+[dependencies]
+robotics_lib = { version = "0.1.21", path = "../robotics_lib-0.1.21"  }

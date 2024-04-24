@@ -35,9 +35,8 @@ license-file = "LICENSE.txt"
 [dependencies.priority-queue]
 version = "1.3.2"
 
-[dependencies.robotics_lib]
-version = "0.1.21"
-registry-index = "sparse+https://advancedprogramming.disi.unitn.it/api/v1/crates/"
+[dependencies]
+robotics_lib = { version = "0.1.21", path = "../robotics_lib-0.1.21"  }
 
 [dev-dependencies.image]
 version = "0.24.7"
