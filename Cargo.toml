@@ -6,21 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rand = "0.8.5"
-time = "0.3.36"
-strum = "0.26.2"
-bevy = { version = "0.13.2", features = ["default", "dynamic_linking"] }
-bincode = "1.3.3"
 lazy_static = "1.4.0"
-robotics_lib = { version = "0.1.21", path = "lib/robotics_lib-0.1.21"  }
-tRust_us_Path_finding = { version = "0.1.0", path = "lib/tRust_us_Path_finding-0.1.0"  }
-pmp_collect_all = { version = "0.1.4", path = "lib/pmp_collect_all-0.1.4"  }
-oxagworldgenerator = { version = "0.1.4", path = "lib/oxagworldgenerator-0.1.4"  }
-oxagaudiotool = { version = "0.2.0", path = "lib/oxagaudiotool-0.2.0"  }
-spyglass = { version = "0.1.3", path = "lib/spyglass-0.1.3" }
-sense_and_find_by_rusafariani = { version = "0.1.6", path = "lib/sense_and_find_by_rusafariani-0.1.6" }
-who_needs_gv_street_explorer = { version = "0.1.0", path = "lib/who_needs_gv_street_explorer-0.1.0" }
-
-[[bin]]
-name = "walle-visualizer"
-path = "src/main.rs"
+robotics_lib = { version = "0.1.21", path = "lib/robotics_lib-0.1.21" }
+tokio = { version = "1.37.0", features = ["time", "rt", "rt-multi-thread", "macros"] }
+roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
+common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git" }

@@ -1,9 +1,0 @@
-[package]
-name = "pmp_collect_all"
-version = "0.1.4"
-edition = "2021"
-authors = ["Matteo Possamai", "Simone Rossi"]
-publish = ["kellnr"]
-
-[dependencies]
-robotics_lib =  { version = "0.1.21", registry = "kellnr" }

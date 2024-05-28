@@ -11,3 +11,7 @@ Cargo.lock
 **/*.rs.bk
 
 .idea/
+
+src/static/node_modules/
+src/static/pnpm-lock.yaml
+src/static/script.js

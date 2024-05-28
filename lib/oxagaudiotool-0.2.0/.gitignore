@@ -1,7 +1,0 @@
-Cargo.lock
-.idea/
-.cargo/
-.vscode/
-__pycache__/
-target/
-.DS_Store
