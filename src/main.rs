@@ -1,14 +1,20 @@
-use actix_files::Files;
 use actix_web::{App, HttpServer};
 
+use crate::config::WalleConfig;
 use crate::static_files::static_files;
 
 mod static_files;
+mod config;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    WalleConfig::load();
+    println!("Starting server at http://{}:{}/", WalleConfig::address(), WalleConfig::port());
+
+
+    let a = (WalleConfig::address(), WalleConfig::port());
     HttpServer::new(|| {
         App::new()
             .service(static_files())
-    }).bind(("127.0.0.1", 8080))?.run().await
+    }).bind(a)?.run().await
 }

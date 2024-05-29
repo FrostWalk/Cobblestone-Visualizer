@@ -1,0 +1,46 @@
+use std::sync::Mutex;
+
+use figment::{Figment, providers::{Env, Format, Toml}};
+use lazy_static::lazy_static;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+pub(crate) struct WalleConfig {
+    address: String,
+    port: u16,
+    static_files_path: String,
+    index: String,
+    db: String,
+}
+
+lazy_static! {
+    static ref CONFIG: Mutex<WalleConfig> = Mutex::new(WalleConfig::load());
+}
+
+impl WalleConfig {
+    pub(crate) fn load() -> Self {
+        Figment::new()
+            .merge(Env::prefixed("WALLE_"))
+            .merge(Toml::file("config.toml"))
+            .extract().expect("Failed to load configuration")
+    }
+    pub(crate) fn address() -> String {
+        CONFIG.lock().unwrap().address.clone()
+    }
+
+    pub(crate) fn port() -> u16 {
+        CONFIG.lock().unwrap().port
+    }
+
+    pub(crate) fn static_files_path() -> String {
+        CONFIG.lock().unwrap().static_files_path.clone()
+    }
+
+    pub(crate) fn index() -> String {
+        CONFIG.lock().unwrap().index.clone()
+    }
+
+    pub(crate) fn db() -> String {
+        CONFIG.lock().unwrap().db.clone()
+    }
+}

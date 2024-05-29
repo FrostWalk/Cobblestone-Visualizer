@@ -13,3 +13,5 @@ roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test
 common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git" }
 actix-web = "4.6.0"
 actix-files = "0.6.5"
+figment = { version = "0.10.19", features = ["env", "toml"] }
+serde = { version = "1.0.203", features = ["derive"] }
