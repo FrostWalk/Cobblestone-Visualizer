@@ -1,6 +1,7 @@
 use actix::{Actor, ActorContext, StreamHandler};
 use actix_web_actors::ws;
 use actix_web_actors::ws::Message;
+use log::warn;
 
 use crate::websocket::errors::WalleError;
 
@@ -24,7 +25,7 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for WalleWebSocket {
             Message::Text(txt) => {}
             Message::Binary(_) => {
                 ctx.text(WalleError::bin_data());
-                println!("Unexpected binary data received")
+                warn!("Unexpected binary data received")
             }
             Message::Continuation(_) => { ctx.text(WalleError::frag_not_supported()) }
             Message::Ping(_) => {}

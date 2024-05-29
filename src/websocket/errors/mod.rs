@@ -9,12 +9,9 @@ pub struct WalleError {
 }
 
 impl WalleError {
-    pub(crate) fn new(m: &str) -> Self {
-        Self {
+    pub(crate) fn create(m: &str) -> String {
+        serde_json::to_string(&Self {
             msg: m.to_string()
-        }
-    }
-    fn as_json(&self) -> String {
-        serde_json::to_string(self).expect("Unable to parse Error struct into json")
+        }).expect("unable to jesonify error")
     }
 }
