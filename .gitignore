@@ -12,6 +12,6 @@ Cargo.lock
 
 .idea/
 
-src/static/node_modules/
-src/static/pnpm-lock.yaml
-src/static/script.js
+wwwroot/node_modules/
+wwwroot/pnpm-lock.yaml
+wwwroot/script.js

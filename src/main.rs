@@ -1,7 +1,14 @@
-use common_messages::messages::{Command, Request};
+use actix_files::Files;
+use actix_web::{App, HttpServer};
 
-#[tokio::main]
-async fn main() {
-    let a = Request::new(Command::NextTick);
-    println!("{:?}", a);
+use crate::static_files::static_files;
+
+mod static_files;
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .service(static_files())
+    }).bind(("127.0.0.1", 8080))?.run().await
 }

@@ -11,3 +11,5 @@ robotics_lib = { version = "0.1.21", path = "lib/robotics_lib-0.1.21" }
 tokio = { version = "1.37.0", features = ["time", "rt", "rt-multi-thread", "macros"] }
 roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
 common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git" }
+actix-web = "4.6.0"
+actix-files = "0.6.5"
