@@ -15,3 +15,7 @@ actix-web = "4.6.0"
 actix-files = "0.6.5"
 figment = { version = "0.10.19", features = ["env", "toml"] }
 serde = { version = "1.0.203", features = ["derive"] }
+actix-web-actors = "4.3.0"
+actix = "0.13.3"
+derive-new = "0.6.0"
+serde_json = "1.0.117"

@@ -25,22 +25,22 @@ impl WalleConfig {
             .extract().expect("Failed to load configuration")
     }
     pub(crate) fn address() -> String {
-        CONFIG.lock().unwrap().address.clone()
+        CONFIG.lock().expect("Unable to lock CONFIG").address.clone()
     }
 
     pub(crate) fn port() -> u16 {
-        CONFIG.lock().unwrap().port
+        CONFIG.lock().expect("Unable to lock CONFIG").port
     }
 
     pub(crate) fn static_files_path() -> String {
-        CONFIG.lock().unwrap().static_files_path.clone()
+        CONFIG.lock().expect("Unable to lock CONFIG").static_files_path.clone()
     }
 
     pub(crate) fn index() -> String {
-        CONFIG.lock().unwrap().index.clone()
+        CONFIG.lock().expect("Unable to lock CONFIG").index.clone()
     }
 
     pub(crate) fn db() -> String {
-        CONFIG.lock().unwrap().db.clone()
+        CONFIG.lock().expect("Unable to lock CONFIG").db.clone()
     }
 }

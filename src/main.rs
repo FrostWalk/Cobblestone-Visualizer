@@ -5,6 +5,7 @@ use crate::static_files::static_files;
 
 mod static_files;
 mod config;
+mod websocket;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
