@@ -24,12 +24,15 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for WalleWebSocket {
         match msg {
             Message::Text(txt) => {}
             Message::Binary(_) => {
-                ctx.text(WalleError::bin_data());
-                warn!("Unexpected binary data received")
+                ctx.text(WalleError::bin_data_not_supported());
+                warn!("Unexpected binary data received");
             }
-            Message::Continuation(_) => { ctx.text(WalleError::frag_not_supported()) }
-            Message::Ping(_) => {}
-            Message::Pong(_) => {}
+            Message::Continuation(_) => {
+                ctx.text(WalleError::frag_not_supported());
+                warn!("Fragmentation received")
+            }
+            Message::Ping(_) => { ctx.text("pong") }
+            Message::Pong(_) => { ctx.text("ping") }
             Message::Close(c) => {}
             Message::Nop => {}
         }

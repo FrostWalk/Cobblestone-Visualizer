@@ -1,4 +1,4 @@
-use std::sync::Mutex;
+use std::sync::RwLock;
 
 use figment::{Figment, providers::{Env, Format, Toml}};
 use lazy_static::lazy_static;
@@ -14,7 +14,7 @@ pub(crate) struct WalleConfig {
 }
 
 lazy_static! {
-    static ref CONFIG: Mutex<WalleConfig> = Mutex::new(WalleConfig::load());
+    static ref CONFIG: RwLock<WalleConfig> = RwLock::new(WalleConfig::load());
 }
 
 impl WalleConfig {
@@ -25,22 +25,22 @@ impl WalleConfig {
             .extract().expect("Failed to load configuration")
     }
     pub(crate) fn address() -> String {
-        CONFIG.lock().expect("Unable to lock CONFIG").address.clone()
+        CONFIG.read().expect("Unable to lock CONFIG").address.clone()
     }
 
     pub(crate) fn port() -> u16 {
-        CONFIG.lock().expect("Unable to lock CONFIG").port
+        CONFIG.read().expect("Unable to lock CONFIG").port
     }
 
     pub(crate) fn static_files_path() -> String {
-        CONFIG.lock().expect("Unable to lock CONFIG").static_files_path.clone()
+        CONFIG.read().expect("Unable to lock CONFIG").static_files_path.clone()
     }
 
     pub(crate) fn index() -> String {
-        CONFIG.lock().expect("Unable to lock CONFIG").index.clone()
+        CONFIG.read().expect("Unable to lock CONFIG").index.clone()
     }
 
     pub(crate) fn db() -> String {
-        CONFIG.lock().expect("Unable to lock CONFIG").db.clone()
+        CONFIG.read().expect("Unable to lock CONFIG").db.clone()
     }
 }
