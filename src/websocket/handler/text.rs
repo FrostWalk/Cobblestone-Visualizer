@@ -16,7 +16,7 @@ pub(crate) fn text_handler(payload: ByteString, ctx: &mut <WalleWebSocket as act
     };
 
     match request.command() {
-        Command::Start => {}
+        Command::Start => {run_robot()}
         Command::Stop => {}
         Command::Reset => {}
         Command::Pause => {}
