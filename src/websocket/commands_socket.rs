@@ -1,5 +1,4 @@
 use actix::{Actor, ActorContext, StreamHandler};
-use actix::fut::err;
 use actix_web::{Error, HttpRequest, HttpResponse, web};
 use actix_web_actors::ws;
 use actix_web_actors::ws::Message;
@@ -19,7 +18,7 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for CommandsSocket {
         let msg = match msg {
             Err(e) => {
                 socket.stop();
-                error!("Command socekt error: {}",e);
+                error!("Command socket error: {}",e);
                 return;
             }
             Ok(msg) => msg,
@@ -41,7 +40,9 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for CommandsSocket {
                 socket.close(reason);
                 socket.stop();
             }
-            Message::Nop => {}
+            Message::Nop => {
+                socket.text(WalleError::command_not_supported())
+            }
         }
     }
 }

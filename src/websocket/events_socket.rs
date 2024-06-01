@@ -40,15 +40,15 @@ impl StreamHandler<Result<ws::Message, ProtocolError>> for EventsSocket {
         let msg = match msg {
             Err(e) => {
                 socket.stop();
-                error!("Command socekt error: {}",e);
+                error!("Command socket error: {}",e);
                 return;
             }
             Ok(msg) => msg,
         };
 
         match msg {
-            Message::Text(m) => {
-                socket.text(m);
+            Message::Text(_) => {
+                socket.text(WalleError::command_not_supported())
             }
             Message::Binary(_) => {
                 socket.text(WalleError::bin_data_not_supported());
@@ -64,7 +64,9 @@ impl StreamHandler<Result<ws::Message, ProtocolError>> for EventsSocket {
                 socket.close(reason);
                 socket.stop();
             }
-            Message::Nop => {}
+            Message::Nop => {
+                socket.text(WalleError::command_not_supported())
+            }
         }
     }
 }
