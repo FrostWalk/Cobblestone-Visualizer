@@ -1,4 +1,5 @@
-pub(crate) mod walle_web_socket;
+pub(crate) mod commands_socket;
+pub(crate) mod events_socket;
 mod errors;
-mod handler;
+mod handlers;
 mod data;

@@ -7,6 +7,7 @@ use crate::robots::sharable_runner::SharableRunner;
 
 lazy_static! {
     pub(crate) static ref RUNNER: Mutex<SharableRunner> = Mutex::new(SharableRunner::new(None));
+    //pub(crate) static ref EVENTS_QUEUE: RwLock<Queue<LibEvent>> = RwLock::new(queue![]);
 }
 
 pub(crate) static TERMINATED: AtomicBool = AtomicBool::new(false);
