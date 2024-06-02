@@ -10,7 +10,6 @@ pub(crate) struct WalleConfig {
     port: u16,
     static_files_path: String,
     index: String,
-    db: String,
 }
 
 lazy_static! {
@@ -38,9 +37,5 @@ impl WalleConfig {
 
     pub(crate) fn index() -> String {
         CONFIG.read().expect("Unable to lock CONFIG").index.clone()
-    }
-
-    pub(crate) fn db() -> String {
-        CONFIG.read().expect("Unable to lock CONFIG").db.clone()
     }
 }
