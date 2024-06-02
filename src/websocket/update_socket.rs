@@ -9,6 +9,7 @@ use common_messages::events::LibEvent;
 use futures_util::stream::StreamExt;
 use log::{error, warn};
 use robotics_lib::event::events::Event;
+use roomba_robot_test::robot::robot_for_visualizer::RobotForVisualizer;
 use roomba_robot_test::robot::Roomba;
 use tokio_stream::wrappers::IntervalStream;
 

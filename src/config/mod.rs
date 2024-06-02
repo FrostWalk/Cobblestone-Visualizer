@@ -1,4 +1,4 @@
-use std::sync::RwLock;
+use std::sync::{Arc, RwLock};
 
 use figment::{Figment, providers::{Env, Format, Toml}};
 use lazy_static::lazy_static;
@@ -14,7 +14,7 @@ pub(crate) struct WalleConfig {
 }
 
 lazy_static! {
-    static ref CONFIG: RwLock<WalleConfig> = RwLock::new(WalleConfig::load());
+    static ref CONFIG: Arc<RwLock<WalleConfig>> = Arc::new(RwLock::new(WalleConfig::load()));
 }
 
 impl WalleConfig {

@@ -1,4 +1,3 @@
-use std::ops::Deref;
 use std::sync::atomic::Ordering::{Relaxed, SeqCst};
 use std::time::Duration;
 
@@ -17,6 +16,7 @@ pub(crate) fn set_robot(runner: Runner) {
 
 pub(crate) fn run_robot() {
     TERMINATED.store(false, SeqCst);
+    
     tokio::spawn(async move {
         let wait = get_wait();
         info!("Starting the robot");
