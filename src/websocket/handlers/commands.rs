@@ -2,7 +2,7 @@ use actix_web_actors::ws::WebsocketContext;
 use bytestring::ByteString;
 use common_messages::messages::{Command, Request};
 use log::error;
-use roomba_robot_test::robot::robot_for_visualizer::RobotForVisualizer;
+use robot_for_visualizer::RobotForVisualizer;
 use roomba_robot_test::robot::Roomba;
 
 use crate::robots::robot::{pause_robot, resume_robot, run_robot, set_robot, stop_robot};
@@ -22,7 +22,7 @@ pub(crate) fn commands_handler(payload: ByteString, socket: &mut WebsocketContex
 
     match request.command() {
         Command::Start => {
-            set_robot(Roomba::get_runner(&mut get_generator(100,0)));
+            set_robot(Roomba::get_runner(&mut get_generator(100, 0)));
             run_robot();
         }
         Command::Stop => { stop_robot() }

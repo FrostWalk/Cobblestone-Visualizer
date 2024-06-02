@@ -6,10 +6,11 @@ use actix_web_actors::ws::{self, Message, ProtocolError};
 use actix_web_actors::ws::Message::{Nop, Text};
 use bytestring::ByteString;
 use common_messages::events::LibEvent;
+use common_messages::messages::Environment;
 use futures_util::stream::StreamExt;
 use log::{error, warn};
+use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition, RobotForVisualizer};
 use robotics_lib::event::events::Event;
-use roomba_robot_test::robot::robot_for_visualizer::RobotForVisualizer;
 use roomba_robot_test::robot::Roomba;
 use tokio_stream::wrappers::IntervalStream;
 
@@ -20,9 +21,9 @@ struct UpdateSocket {}
 
 impl UpdateSocket {
     fn start_stream(&self, ctx: &mut ws::WebsocketContext<Self>) {
-        let interval = tokio::time::interval(get_wait());
+        let interval = tokio::time::interval(get_wait() / 2);
         let interval_stream = IntervalStream::new(interval).map(|_| {
-            if let Some(event) = Roomba::get_event_from_queue() {
+            if let Some(event) = get_event_from_queue() {
                 create_update(event)
             } else {
                 Ok(Nop)
@@ -65,7 +66,10 @@ impl StreamHandler<Result<ws::Message, ProtocolError>> for UpdateSocket {
             }
             Message::Ping(m) => { ctx.pong(&m) }
             Message::Pong(m) => { ctx.ping(&m) }
-            Message::Close(reason) => { ctx.close(reason); ctx.stop(); }
+            Message::Close(reason) => {
+                ctx.close(reason);
+                ctx.stop();
+            }
             Message::Nop => {}
         }
     }
@@ -78,7 +82,8 @@ pub(crate) async fn update_socket(req: HttpRequest, stream: web::Payload) -> Res
 fn create_update(event: Event) -> Result<Message, ProtocolError> {
     let event = LibEvent::from(event);
     let data = get_robot_data();
-    let response = match common_messages::messages::Response::new(event, data).to_json() {
+    let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
+    let response = match common_messages::messages::Response::new(event, data, env).to_json() {
         Ok(m) => { m }
         Err(e) => {
             error!("{}",e);
