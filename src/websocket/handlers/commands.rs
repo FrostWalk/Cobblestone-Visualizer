@@ -24,6 +24,7 @@ pub(crate) fn commands_handler(payload: ByteString, socket: &mut WebsocketContex
         Command::Start => {
             set_robot(Roomba::get_runner(&mut get_generator(100, 0)));
             run_robot();
+
         }
         Command::Stop => { stop_robot() }
         Command::Reset => {}

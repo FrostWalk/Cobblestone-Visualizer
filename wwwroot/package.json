@@ -1,5 +1,11 @@
 {
-	"devDependencies": {
-		"typescript": "^5.4.5"
-	}
+  "name": "login-page",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
