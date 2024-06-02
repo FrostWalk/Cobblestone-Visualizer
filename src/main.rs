@@ -4,7 +4,7 @@ use log::info;
 use crate::config::WalleConfig;
 use crate::static_files::static_files;
 use crate::websocket::commands_socket::commands_socket;
-use crate::websocket::events_socket::events_socket;
+use crate::websocket::update_socket::update_socket;
 
 mod static_files;
 mod config;
@@ -22,7 +22,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .route("/commands", web::get().to(commands_socket))
-            .route("/events", web::get().to(events_socket))
+            .route("/updates", web::get().to(update_socket))
             .service(static_files())
     }).bind((WalleConfig::address(), WalleConfig::port()))?.run().await
 }

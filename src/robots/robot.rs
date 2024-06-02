@@ -1,19 +1,25 @@
+use std::ops::Deref;
 use std::sync::atomic::Ordering::{Relaxed, SeqCst};
 use std::time::Duration;
 
+use common_messages::robot::RobotData;
 use log::{info, warn};
 use robotics_lib::runner::Runner;
 
 use crate::robots::sharable_runner::SharableRunner;
 use crate::robots::variables::{PAUSE, RUNNER, TERMINATED, WAIT};
 
+const LOCK_ERROR: &str = "Unable to lock RUNNER";
+
 pub(crate) fn set_robot(runner: Runner) {
     *RUNNER.lock().expect("unable to gain write access to RUNNER") = SharableRunner::new(Some(runner));
 }
 
 pub(crate) fn run_robot() {
+    TERMINATED.store(false, SeqCst);
     tokio::spawn(async move {
         let wait = get_wait();
+        info!("Starting the robot");
         loop {
             if PAUSE.load(Relaxed) {
                 if TERMINATED.load(Relaxed) {
@@ -21,12 +27,12 @@ pub(crate) fn run_robot() {
                     return;
                 }
 
-                tokio::time::sleep(wait).await;
+                tokio::time::sleep(wait / 2).await;
 
                 continue;
             }
 
-            match RUNNER.lock().expect("Unable to lock RUNNER").runner.as_mut() {
+            match RUNNER.lock().expect(LOCK_ERROR).option_runner.as_mut() {
                 None => {
                     warn!("Start was called but no robot was found");
                     return;
@@ -41,7 +47,6 @@ pub(crate) fn run_robot() {
                 return;
             }
 
-            info!("Robot is running");
             tokio::time::sleep(wait).await;
         }
     });
@@ -63,25 +68,6 @@ pub(crate) fn get_wait() -> Duration {
     Duration::from_millis(WAIT.load(Relaxed))
 }
 
-/*fn add_event_to_queue(event: Event) {
-    EVENTS_QUEUE.write().expect("Enable to lock queue in write mode (add_event_to_queue)")
-        .add(LibEvent::from(event)).expect("Unable to add event to queue");
+pub(crate) fn get_robot_data() -> RobotData {
+    RobotData::from(RUNNER.lock().expect(LOCK_ERROR).option_runner.as_ref().expect("trying to read data from a None robot").get_robot())
 }
-
-pub fn get_event_from_queue() -> Option<LibEvent> {
-    if get_queue_size() == 0 {
-        return None;
-    }
-
-    return match EVENTS_QUEUE.write().expect("Unable to lock queue in write mode (get_event)").remove() {
-        Ok(event) => { Some(event) }
-        Err(error) => {
-            error!("Queue error: {}", error);
-            None
-        }
-    };
-}
-
-pub fn get_queue_size() -> usize {
-    EVENTS_QUEUE.read().expect("Unable to lock queue in read mode (get_event)").size()
-}*/

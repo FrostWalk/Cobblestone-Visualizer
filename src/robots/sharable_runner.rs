@@ -3,7 +3,7 @@ use robotics_lib::runner::Runner;
 
 #[derive(new)]
 pub(crate) struct SharableRunner {
-    pub(crate) runner: Option<Runner>,
+    pub(crate) option_runner: Option<Runner>,
 }
 
 unsafe impl Sync for SharableRunner {}
