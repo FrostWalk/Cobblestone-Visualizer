@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::{Read, Write};
 
 use oxagworldgenerator::world_generator::presets::content_presets::OxAgContentPresets;
+use oxagworldgenerator::world_generator::presets::environmental_presets::OxAgEnvironmentalConditionPresets;
 use oxagworldgenerator::world_generator::presets::tile_type_presets::OxAgTileTypePresets;
 use oxagworldgenerator::world_generator::world_generator_builder::OxAgWorldGeneratorBuilder;
 use rand::{RngCore, thread_rng};
@@ -13,6 +14,7 @@ pub(crate) fn get_generator(size: usize, seed: u64) -> impl Generator {
         .set_size(size)
         .set_tile_type_options_from_preset(OxAgTileTypePresets::Default)
         .set_content_options_from_preset(OxAgContentPresets::Default)
+        .set_environmental_conditions_from_preset(OxAgEnvironmentalConditionPresets::Mixed)
         .build()
         .expect("Unable to create a world generator")
 }

@@ -6,6 +6,4 @@ pub(crate) struct SharableRunner {
     pub(crate) option_runner: Option<Runner>,
 }
 
-unsafe impl Sync for SharableRunner {}
-
 unsafe impl Send for SharableRunner {}
