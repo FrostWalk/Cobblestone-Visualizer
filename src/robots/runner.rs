@@ -16,7 +16,7 @@ pub(crate) fn set_robot(runner: Runner) {
 
 pub(crate) fn run_robot() {
     TERMINATED.store(false, SeqCst);
-    
+
     tokio::spawn(async move {
         let wait = get_wait();
         info!("Starting the robot");
@@ -66,6 +66,10 @@ pub(crate) fn resume_robot() {
 
 pub(crate) fn get_wait() -> Duration {
     Duration::from_millis(WAIT.load(Relaxed))
+}
+
+pub(crate) fn set_wait(wait: u64) {
+    WAIT.store(wait, SeqCst);
 }
 
 pub(crate) fn get_robot_data() -> RobotData {

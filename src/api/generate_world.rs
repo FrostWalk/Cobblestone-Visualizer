@@ -1,26 +1,64 @@
+use actix::fut::result;
 use actix_web::{HttpResponse, post, Responder, web};
 use actix_web::http::header::ContentType;
+use log::info;
+use robot_for_visualizer::RobotForVisualizer;
+use robotics_lib::runner::Runner;
+use robotics_lib::utils::LibError;
+use roomba_robot_test::robot::Roomba;
 use serde::{Deserialize, Serialize};
+use serde::de::Unexpected::Str;
+
+use crate::robots::runner::{set_robot, set_wait};
+use crate::world_gen_helper::get_generator;
 
 #[derive(Deserialize)]
-struct WorldGenData {
-    size: usize,
+struct WorldData {
+    #[serde(alias = "worldSize")]
+    world_size: usize,
     seed: u64,
     wait: u64,
+    robot: String,
 }
 
 #[derive(Serialize)]
 struct GenResponse {
     success: bool,
-    error: String,
+    msg: Option<String>,
 }
 
-#[post("/generateWorld")]
-async fn post_ticket(req: web::Json<WorldGenData>) -> impl Responder {
 
-    let response = serde_json::to_string("").unwrap();
+#[post("/generate")]
+async fn generate_world(data: web::Json<WorldData>) -> impl Responder {
+    let req = data.into_inner();
 
-    HttpResponse::Created()
+    info!(
+        "Generating World: {}, seed: {}, wait: {}, robot: {}",
+        req.world_size, req.seed, req.wait, req.robot
+    );
+
+    let mut response = GenResponse {
+        success: true,
+        msg: None,
+    };
+
+    set_wait(req.wait);
+    match Roomba::get_runner(&mut get_generator(req.world_size, req.seed)) {
+        Ok(r) => {
+            set_robot(r);
+        }
+        Err(e) => {
+            response = GenResponse {
+                success: false,
+                msg: Some(format!("{:?}", e)),
+            }
+        }
+    }
+    
+    info!("World generation completed");
+
+    let response = serde_json::to_string(&response).unwrap();
+    HttpResponse::Ok()
         .content_type(ContentType::json())
         .body(response)
 }

@@ -14,7 +14,7 @@ use robotics_lib::event::events::Event;
 use roomba_robot_test::robot::Roomba;
 use tokio_stream::wrappers::IntervalStream;
 
-use crate::robots::robot::{get_robot_data, get_wait};
+use crate::robots::runner::{get_robot_data, get_wait};
 use crate::websocket::errors::WalleError;
 
 struct UpdateSocket {}

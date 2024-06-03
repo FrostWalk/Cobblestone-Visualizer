@@ -10,7 +10,7 @@ struct RobotsResponse<'a> {
 #[get("/robots")]
 pub(crate) async fn get_available_robots() -> impl Responder {
     let robots = RobotsResponse {
-        robots: vec!["Roomba"]
+        robots: vec!["Roomba", "Lorys"]
     };
 
     let response = serde_json::to_string(&robots).unwrap();
