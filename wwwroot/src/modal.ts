@@ -1,4 +1,4 @@
-const BASE_URL = 'http://0.0.0.0:8080';
+import {BASE_URL} from "./variables.js";
 
 window.addEventListener('load', async () => {
     try {
@@ -59,10 +59,7 @@ window.addEventListener('load', async () => {
         const robot = (document.getElementById('robot') as HTMLSelectElement).value;
 
         const formData = {
-            worldSize: parseInt(worldSize),
-            seed: parseInt(seed),
-            wait: parseInt(wait),
-            robot: robot
+            worldSize: parseInt(worldSize), seed: parseInt(seed), wait: parseInt(wait), robot: robot
         };
 
         try {
@@ -71,11 +68,9 @@ window.addEventListener('load', async () => {
             loadingBarContainer.style.display = 'block';
 
             const response = await fetch(`${BASE_URL}/generate`, {
-                method: 'POST',
-                headers: {
+                method: 'POST', headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                }, body: JSON.stringify(formData)
             });
 
             if (!response.ok) {
@@ -109,5 +104,4 @@ window.addEventListener('load', async () => {
             loadingBarContainer.style.display = 'none';
         }
     });
-
 });

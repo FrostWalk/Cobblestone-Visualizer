@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && ~/.local/share/pnpm/minify css/styles.css > dist/styles.min.css",
+    "build": "tsc --sourceMap true && ~/.local/share/pnpm/minify css/styles.css > dist/styles.min.css",
     "minify": "~/.local/share/pnpm/minify dist/index.js > dist/index.min.js && rm dist/index.js"
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "ws": "^8.17.0"
   }
 }
