@@ -1,9 +1,9 @@
 {
-  "name": "login-page",
+  "name": "walle-visualizer",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && ~/.local/share/pnpm/minify dist/index.js > dist/index.min.js && ~/.local/share/pnpm/minify css/styles.css > dist/styles.min.css"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

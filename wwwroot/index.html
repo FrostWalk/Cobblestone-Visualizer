@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Wall-E Visualizer</title>
-    <link href="css/styles.css" rel="stylesheet">
+    <title>WALL•E Visualizer</title>
+    <link href="dist/styles.min.css" rel="stylesheet">
 </head>
 <body>
+<div class="container">
+    <h1>WALL•E</h1>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <form id="generate-form">
+            <h2>WALL•E Visualizer</h2>
+            <div class="form-group">
+                <label for="world-size">World Size</label>
+                <input id="world-size" max="1000" min="25" required type="number" value="100">
+            </div>
+            <div class="form-group-seed">
+                <label for="seed">Seed</label>
+                <input id="seed" required type="number">
+                <button class="seed-button" id="generate-seed" type="button">generate</button>
+            </div>
+            <div class="form-group">
+                <label for="wait">Wait (ms)</label>
+                <input id="wait" max="2000" min="50" required type="number" value="100">
+            </div>
+
+            <label for="robot">Robot:</label>
+            <select id="robot" name="robot" required></select><br><br>
+
+            <button class="generate-button" type="submit">Start</button>
+        </form>
+    </div>
+</div>
 
 <script src="dist/index.js"></script>
 </body>

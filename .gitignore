@@ -15,3 +15,5 @@ Cargo.lock
 wwwroot/node_modules/
 wwwroot/pnpm-lock.yaml
 wwwroot/script.js
+*min*
+*js
