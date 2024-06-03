@@ -1,5 +1,29 @@
-const BASE_URL = 'http://0.0.0.0:8080'
-window.addEventListener('load', () => {
+const BASE_URL = 'http://0.0.0.0:8080';
+
+window.addEventListener('load', async () => {
+    try {
+        // Fetch robots and populate dropdown
+        const response = await fetch(`${BASE_URL}/robots`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch robots from the server');
+        }
+        const data = await response.json();
+        const robots = data.robots; // Estrarre l'array di robot dalla chiave "robots"
+        if (!Array.isArray(robots)) {
+            throw new Error('Response data is not an array');
+        }
+        const robotSelect = document.getElementById('robot') as HTMLSelectElement;
+        robots.forEach((robot: string) => {
+            const option = document.createElement('option');
+            option.value = robot;
+            option.text = robot;
+            robotSelect.add(option);
+        });
+    } catch (error) {
+        console.error(error);
+        alert('An error occurred while fetching robots from the server');
+    }
+
     // Show the modal after a short delay
     setTimeout(() => {
         const modal = document.getElementById('modal');
@@ -15,12 +39,14 @@ window.addEventListener('load', () => {
         const worldSize = (document.getElementById('world-size') as HTMLInputElement).value;
         const seed = (document.getElementById('seed') as HTMLInputElement).value;
         const wait = (document.getElementById('wait') as HTMLInputElement).value;
+        const robot = (document.getElementById('robot') as HTMLSelectElement).value;
 
         // Prepare data to send to the backend API
         const formData = {
             worldSize: parseInt(worldSize),
             seed: parseInt(seed),
-            wait: parseInt(wait)
+            wait: parseInt(wait),
+            robot: robot
         };
 
         try {
@@ -62,11 +88,9 @@ window.addEventListener('load', () => {
     document.getElementById('generate-seed')!.addEventListener('click', async function () {
         try {
             const response = await fetch(`${BASE_URL}/randomSeed`);
-
             if (!response.ok) {
                 throw new Error('Failed to fetch random seed from the server');
             }
-
             const data = await response.json();
 
             // Update the seed input field with the random seed value

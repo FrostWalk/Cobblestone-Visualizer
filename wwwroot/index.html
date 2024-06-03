@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>WALL•E Visualizer</title>
+    <link href="dist/favicon.ico" rel="icon" type="image/x-icon">
     <link href="dist/styles.min.css" rel="stylesheet">
 </head>
 <body>
@@ -28,9 +29,10 @@
                 <label for="wait">Wait (ms)</label>
                 <input id="wait" max="2000" min="50" required type="number" value="100">
             </div>
-
-            <label for="robot">Robot:</label>
-            <select id="robot" name="robot" required></select><br><br>
+            <div class="form-group">
+                <label for="robot">Robot:</label>
+                <select id="robot" name="robot" required></select><br><br>
+            </div>
 
             <button class="generate-button" type="submit">Start</button>
         </form>

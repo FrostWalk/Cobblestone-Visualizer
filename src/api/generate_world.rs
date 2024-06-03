@@ -1,3 +1,5 @@
+use actix_web::{HttpResponse, post, Responder, web};
+use actix_web::http::header::ContentType;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
@@ -13,14 +15,12 @@ struct GenResponse {
     error: String,
 }
 
-/*#[post("/generateWorld")]
+#[post("/generateWorld")]
 async fn post_ticket(req: web::Json<WorldGenData>) -> impl Responder {
-    gene
 
-    let response = serde_json::to_string(&new_ticket).unwrap();
+    let response = serde_json::to_string("").unwrap();
 
-    tickets.push(new_ticket);
     HttpResponse::Created()
         .content_type(ContentType::json())
         .body(response)
-}*/
+}
