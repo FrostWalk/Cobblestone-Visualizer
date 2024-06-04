@@ -138,6 +138,8 @@ export function addListeners(): void {
                     if (!response.ok) {
                         throw new Error('Failed to upload file to the server');
                     }
+
+                    sendCommand(Command.Start);
                 } else if (isDownloadChecked) {
                     const response = await fetch(`${BASE_URL}/downloadWorld`, {
                         method: 'POST',

@@ -4,9 +4,9 @@ import {Command, Request} from './data';
 const BASE_URL = 'http://0.0.0.0:8080';
 
 // WebSocket connection
-const socket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
+const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
 
-socket.addEventListener('open', () => {
+commandSocket.addEventListener('open', () => {
     console.log('Connected to WebSocket server');
 
     const request: Request = {
@@ -15,15 +15,15 @@ socket.addEventListener('open', () => {
     //sendRequest(request);
 });
 
-socket.addEventListener('message', (event) => {
+commandSocket.addEventListener('message', (event) => {
     console.log('Message from server:', event.data);
 });
 
-socket.addEventListener('close', () => {
+commandSocket.addEventListener('close', () => {
     console.log('Disconnected from WebSocket server');
 });
 
-socket.addEventListener('error', (error) => {
+commandSocket.addEventListener('error', (error) => {
     console.error('WebSocket error:', error);
 });
 
@@ -31,10 +31,10 @@ export function sendCommand(command: Command): void {
     const request: Request = {
         command: command
     }
-    if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(request));
+    if (commandSocket.readyState === WebSocket.OPEN) {
+        commandSocket.send(JSON.stringify(request));
         console.log('Sent request:', request);
     } else {
-        console.error('WebSocket is not open. Ready state:', socket.readyState);
+        console.error('WebSocket is not open. Ready state:', commandSocket.readyState);
     }
 }

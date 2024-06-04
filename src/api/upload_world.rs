@@ -1,77 +1,54 @@
 use std::fs::File;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::Path;
 
 use actix_multipart::Multipart;
-use actix_web::{HttpResponse, post};
+use actix_web::{Error, HttpResponse, post};
 use actix_web::http::header::ContentType;
-use futures_util::stream::StreamExt as _;
-use futures_util::TryStreamExt;
-use log::info;
+use futures_util::{StreamExt, TryStreamExt};
 use robot_for_visualizer::RobotForVisualizer;
 use roomba_robot_test::robot::Roomba;
 
 use crate::api::CommonResponse;
+use crate::api::get_available_robots::AvailableRobots;
 use crate::config::WalleConfig;
 use crate::robots::runner::set_robot;
 use crate::world_gen_helper::load_world;
 
 #[post("/uploadWorld")]
-pub(crate) async fn upload_world(mut payload: Multipart) -> HttpResponse {
-    // Create a path to save the file
+pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse, Error> {
+    let mut robot_name = String::new();
+    let mut file_name: String = String::from("");
 
     // Iterate over multipart stream
-    while let Some(item) = match payload.try_next().await {
-        Ok(item) => item,
-        Err(e) => {
-            return HttpResponse::InternalServerError().json(CommonResponse {
-                success: false,
-                msg: Some(format!("Error processing multipart stream: {}", e)),
-            });
-        }
-    } {
+    while let Some(item) = payload.try_next().await? {
         let mut field = item;
-        // Create a file path
-        let filepath = PathBuf::from(format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), "wall-e_world.zst"));
 
-        // Create and write to the file
-        let mut f = match File::create(filepath) {
-            Ok(file) => file,
-            Err(e) => {
-                return HttpResponse::InternalServerError().json(CommonResponse {
-                    success: false,
-                    msg: Some(format!("Error creating file: {}", e)),
-                });
+        // Handle regular form fields
+        let field_name = field.name();
+        if field_name == "robot" {
+            // Extract the robot name from the form field
+            let mut bytes = Vec::new();
+            while let Some(chunk) = field.next().await {
+                let data = chunk?;
+                bytes.extend_from_slice(&data);
             }
-        };
-        while let Some(chunk) = match field.next().await {
-            Some(Ok(data)) => Some(data),
-            Some(Err(e)) => {
-                return HttpResponse::InternalServerError().json(CommonResponse {
-                    success: false,
-                    msg: Some(format!("Error reading field data: {}", e)),
-                });
-            }
-            None => None,
-        } {
-            if let Err(e) = f.write_all(&chunk) {
-                return HttpResponse::InternalServerError().json(CommonResponse {
-                    success: false,
-                    msg: Some(format!("Error writing to file: {}", e)),
-                });
+            robot_name.clone_from(&String::from_utf8(bytes).unwrap_or_default());
+        }
+
+        let content_disposition = field.content_disposition();
+        // Estraiamo il filename se presente
+        if let Some(filename) = content_disposition.get_filename() {
+            let path = Path::new(WalleConfig::static_files_path().as_str())
+                .join(WalleConfig::file_dir().as_str()).join(filename);
+            file_name = filename.to_string();
+            let mut file = File::create(path)?;
+            while let Some(chunk) = field.next().await {
+                let data = chunk?;
+                file.write_all(&data)?;
             }
         }
     }
-
-    let mut wg = match load_world() {
-        Ok(w) => { w }
-        Err(e) => {
-            return HttpResponse::BadRequest().json(CommonResponse {
-                success: false,
-                msg: Some(format!("{:?}", e)),
-            });
-        }
-    };
 
 
     let mut response = CommonResponse {
@@ -79,26 +56,39 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> HttpResponse {
         msg: None,
     };
 
-    match Roomba::get_runner(&mut wg) {
-        Ok(r) => {
-            set_robot(r);
-        }
+    let mut generator = match load_world(file_name) {
+        Ok(g) => { g }
         Err(e) => {
             response = CommonResponse {
                 success: false,
                 msg: Some(format!("{:?}", e)),
             };
             let response = serde_json::to_string(&response).unwrap();
-            return HttpResponse::Ok()
+            return Ok(HttpResponse::InternalServerError()
                 .content_type(ContentType::json())
-                .body(response);
+                .body(response));
         }
+    };
+
+    match AvailableRobots::from(robot_name) {
+        AvailableRobots::Roomba => {
+            match Roomba::get_runner(&mut generator) {
+                Ok(r) => {
+                    set_robot(r);
+                }
+                Err(e) => {
+                    response = CommonResponse {
+                        success: false,
+                        msg: Some(format!("{:?}", e)),
+                    }
+                }
+            }
+        }
+        AvailableRobots::Bobot => {}
+        AvailableRobots::Matteo => {}
     }
 
-    info!("World load completed");
-
-    let response = serde_json::to_string(&response).unwrap();
-    HttpResponse::Ok()
-        .content_type(ContentType::json())
-        .body(response)
+    Ok(HttpResponse::Ok().json(response))
 }
+
+

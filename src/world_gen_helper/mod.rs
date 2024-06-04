@@ -1,5 +1,5 @@
 use std::fs::{File, remove_file};
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path::Path;
 
 use oxagworldgenerator::utils::generate_random_seed;
@@ -47,20 +47,22 @@ pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
     Ok(())
 }
 
-pub(crate) fn load_world() -> Result<OxAgWorldGenerator, String> {
+pub(crate) fn load_world(name: String) -> Result<OxAgWorldGenerator, String> {
     let zstdpath = Path::new(WalleConfig::static_files_path().as_str())
-        .join(WalleConfig::file_dir().as_str()).join("wall-e_world.zst");
+        .join(WalleConfig::file_dir().as_str()).join(name);
     let mut file = File::open(zstdpath.clone()).map_err(|e| { format!("{}", e) })?;
 
-    let mut file_content = Vec::new();
+    let mut file_content = Vec::with_capacity(8000);
     file.read_to_end(&mut file_content).map_err(|e| { format!("{}", e) })?;
 
-    let mut expanded: Vec<u8> = Vec::with_capacity(file_content.len() * 2);
+    let mut expanded: Vec<u8> = Vec::with_capacity(file_content.len() * 10);
     copy_decode(file_content.as_slice(), &mut expanded).map_err(|e| format!("{e}"))?;
 
     let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), "world.json");
 
-    File::create(path.as_str()).map_err(|e| format!("{e}"))?;
+    let mut file = File::create(path.as_str()).map_err(|e| format!("{e}"))?;
+    
+    file.write_all(expanded.as_slice()).map_err(|e| format!("{e}"))?;
 
     let _ = remove_file(zstdpath);
 

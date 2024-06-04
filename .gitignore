@@ -19,3 +19,4 @@ wwwroot/script.js
 *js
 *map
 *zst
+/wwwroot/worlds/*.json

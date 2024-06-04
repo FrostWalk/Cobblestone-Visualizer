@@ -9,9 +9,8 @@ use common_messages::events::LibEvent;
 use common_messages::messages::Environment;
 use futures_util::stream::StreamExt;
 use log::{error, warn};
-use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition, RobotForVisualizer};
+use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition};
 use robotics_lib::event::events::Event;
-use roomba_robot_test::robot::Roomba;
 use tokio_stream::wrappers::IntervalStream;
 
 use crate::robots::runner::{get_robot_data, get_wait};

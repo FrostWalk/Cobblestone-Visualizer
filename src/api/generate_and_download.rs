@@ -2,8 +2,8 @@ use actix_web::{HttpResponse, post, web};
 use actix_web::http::header::ContentType;
 use log::info;
 use serde::Deserialize;
-use crate::api::CommonResponse;
 
+use crate::api::CommonResponse;
 use crate::world_gen_helper::generate_and_save;
 
 #[derive(Deserialize)]

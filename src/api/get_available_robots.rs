@@ -1,16 +1,25 @@
 use actix_web::{get, HttpResponse, Responder};
 use actix_web::http::header::ContentType;
 use serde::Serialize;
+use strum::{EnumIter, IntoEnumIterator};
 
 #[derive(Serialize)]
-struct RobotsResponse<'a> {
-    robots: Vec<&'a str>,
+struct RobotsResponse {
+    robots: Vec<String>,
+}
+
+#[derive(Debug, EnumIter)]
+pub(crate) enum AvailableRobots {
+    Roomba,
+    Bobot,
+    Matteo,
 }
 
 #[get("/robots")]
 pub(crate) async fn get_available_robots() -> impl Responder {
     let robots = RobotsResponse {
-        robots: vec!["Roomba", "Lorys"]
+        robots: AvailableRobots::iter().map(|e| format!("{:?}", e)).collect(),
+
     };
 
     let response = serde_json::to_string(&robots).unwrap();
@@ -18,4 +27,17 @@ pub(crate) async fn get_available_robots() -> impl Responder {
     HttpResponse::Ok()
         .content_type(ContentType::json())
         .body(response)
+}
+
+impl From<String> for AvailableRobots {
+    fn from(value: String) -> Self {
+        match value.as_str() {
+            "Roomba" => { AvailableRobots::Roomba }
+            "Bobot" => { AvailableRobots::Bobot }
+            "Matteo" => { AvailableRobots::Matteo }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
 }
