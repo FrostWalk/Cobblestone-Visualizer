@@ -1,5 +1,6 @@
 use std::fs::File;
-use std::io::{Read, Write};
+use std::io::Read;
+use std::path::Path;
 
 use oxagworldgenerator::world_generator::presets::content_presets::OxAgContentPresets;
 use oxagworldgenerator::world_generator::presets::environmental_presets::OxAgEnvironmentalConditionPresets;
@@ -7,6 +8,9 @@ use oxagworldgenerator::world_generator::presets::tile_type_presets::OxAgTileTyp
 use oxagworldgenerator::world_generator::world_generator_builder::OxAgWorldGeneratorBuilder;
 use rand::{RngCore, thread_rng};
 use robotics_lib::world::world_generator::Generator;
+use zstd::stream::copy_encode;
+
+use crate::config::WalleConfig;
 
 pub(crate) fn get_generator(size: usize, seed: u64) -> impl Generator {
     OxAgWorldGeneratorBuilder::new()
@@ -19,11 +23,16 @@ pub(crate) fn get_generator(size: usize, seed: u64) -> impl Generator {
         .expect("Unable to create a world generator")
 }
 
-pub(crate) fn generate_and_save(name: &str, size: usize, seed: u64) -> Result<(), String> {
+pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
     let world = get_generator(size, seed).gen();
-    let serialized = bincode::serialize(&world).map_err(|e| { format!("{}", e) })?;
-    let mut file = File::create(name).map_err(|e| { format!("{}", e) })?;
-    file.write_all(&serialized).map_err(|e| { format!("{}", e) })?;
+    let data = bincode::serialize(&world).map_err(|e| format!("{e}"))?;
+
+    let path = Path::new(WalleConfig::static_files_path().as_str())
+        .join(WalleConfig::file_dir().as_str()).join("wall-e_world.zst");
+    
+    let mut dest: File = File::create(path).map_err(|e| format!("{e}"))?;
+
+    copy_encode(data.as_slice(), &mut dest, 14).map_err(|e| format!("{e}"))?;
     Ok(())
 }
 

@@ -1,6 +1,7 @@
 use actix_web::{App, HttpServer, web};
 use log::info;
 
+use crate::api::generate_and_download::generate_and_download;
 use crate::api::generate_world::generate_world;
 use crate::api::get_available_robots::get_available_robots;
 use crate::api::random_seed::generate_seed;
@@ -30,6 +31,7 @@ async fn main() -> std::io::Result<()> {
             .service(generate_seed)
             .service(get_available_robots)
             .service(generate_world)
+            .service(generate_and_download)
             .service(static_files())
     }).bind((WalleConfig::address(), WalleConfig::port()))?.run().await
 }

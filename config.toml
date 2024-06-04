@@ -3,3 +3,4 @@ port = 8080
 static_files_path = "./wwwroot"
 #index = "index.html"
 index = "index.html"
+file_dir = "worlds"

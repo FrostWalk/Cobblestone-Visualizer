@@ -3,7 +3,6 @@ import {sendCommand} from "./websocket";
 import {Command} from "./data";
 
 export function addListeners(): void {
-
     window.addEventListener('load', async () => {
         try {
             // Fetch robots and populate dropdown
@@ -54,6 +53,41 @@ export function addListeners(): void {
             }
         });
 
+        // Handle "show advanced" click
+        const showAdvanced = document.getElementById('show-advanced');
+        const advancedOptions = document.getElementById('advanced-options');
+        if (showAdvanced && advancedOptions) {
+            showAdvanced.addEventListener('click', () => {
+                advancedOptions.style.display = (advancedOptions.style.display === 'none' ? 'block' : 'none');
+            });
+        }
+
+        const uploadWorldInput = document.getElementById('upload-world') as HTMLInputElement;
+
+        uploadWorldInput.addEventListener('change', () => {
+            let isFileSelected: boolean;
+            if (uploadWorldInput.files && uploadWorldInput.files.length > 0) {
+                isFileSelected = true;
+            } else {
+                isFileSelected = false;
+            }
+
+            (document.getElementById('world-size') as HTMLInputElement).disabled = isFileSelected;
+            (document.getElementById('seed') as HTMLInputElement).disabled = isFileSelected;
+            (document.getElementById('generate-seed') as HTMLButtonElement).disabled = isFileSelected;
+        });
+
+        const downloadWorldCheckbox = document.getElementById('download-world') as HTMLInputElement;
+
+        downloadWorldCheckbox.addEventListener('change', () => {
+            const isDownloadChecked = downloadWorldCheckbox.checked;
+            (document.getElementById('robot') as HTMLSelectElement).disabled = isDownloadChecked;
+            (document.getElementById('wait') as HTMLInputElement).disabled = isDownloadChecked;
+            (document.getElementById('upload-world') as HTMLInputElement).disabled = isDownloadChecked;
+            const startButton = document.querySelector('.start-button') as HTMLButtonElement;
+            startButton.textContent = isDownloadChecked ? 'Download' : 'Start';
+        });
+
         document.getElementById('generate-form')!.addEventListener('submit', async function (event) {
             event.preventDefault();
 
@@ -61,9 +95,13 @@ export function addListeners(): void {
             const seed = (document.getElementById('seed') as HTMLInputElement).value;
             const wait = (document.getElementById('wait') as HTMLInputElement).value;
             const robot = (document.getElementById('robot') as HTMLSelectElement).value;
+            const isDownloadChecked = downloadWorldCheckbox.checked;
 
             const formData = {
-                worldSize: parseInt(worldSize), seed: parseInt(seed), wait: parseInt(wait), robot: robot
+                worldSize: parseInt(worldSize),
+                seed: parseInt(seed),
+                wait: parseInt(wait),
+                robot: robot
             };
 
             try {
@@ -71,34 +109,68 @@ export function addListeners(): void {
                 const loadingBarContainer = document.getElementById('loading')!;
                 loadingBarContainer.style.display = 'block';
 
-                const response = await fetch(`${BASE_URL}/generate`, {
-                    method: 'POST', headers: {
+                const endpoint = isDownloadChecked ? `${BASE_URL}/downloadWorld` : `${BASE_URL}/generate`;
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
                         'Content-Type': 'application/json'
-                    }, body: JSON.stringify(formData)
+                    },
+                    body: JSON.stringify(isDownloadChecked ? {
+                        worldSize: formData.worldSize,
+                        seed: formData.seed
+                    } : formData)
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to send data to the server');
-                }
+                const data = await response.json();
 
-                // Show notification banner
-                const notification = document.createElement('div');
-                notification.classList.add('notification');
-                notification.textContent = 'World generated successfully';
-                document.body.appendChild(notification);
+                if (!data.success) {
+                    alert(data.msg); // Display error message
+                } else {
+                    // Download the file using fetch
+                    const downloadUrl = `${BASE_URL}/worlds/wall-e_world.zst`;
 
-                // Close notification after 2 seconds
-                setTimeout(() => {
-                    notification.remove();
-                }, 10000);
-                // Hide the modal
-                const modal = document.getElementById('modal');
-                if (modal) {
-                    modal.style.display = 'none';
+                    try {
+                        const downloadResponse = await fetch(downloadUrl);
+
+                        if (!downloadResponse.ok) {
+                            throw new Error(`Failed to download file: ${downloadUrl}`);
+                        }
+
+                        const blob = await downloadResponse.blob();
+                        const filename = 'wall-e_world.zst'; // Adjust filename if needed
+
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = filename;
+                        link.click();
+                    } catch (error) {
+                        console.error('Error downloading file:', error);
+                        alert('Failed to download the file.'); // Inform user about download failure
+                    }
                 }
 
                 // Hide the loading bar
                 loadingBarContainer.style.display = 'none';
+                if (isDownloadChecked) {
+                    return
+                }
+                // Show notification banner
+                const notification = document.createElement('div');
+                notification.classList.add('notification');
+                notification.textContent = isDownloadChecked ? 'World downloaded successfully' : 'World generated successfully';
+
+                document.body.appendChild(notification);
+                // Close notification after 15 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 15000);
+                // Hide the modal
+                const modal = document.getElementById('modal');
+                if (modal) {
+                    modal.style.display = 'none';
+
+                }
             } catch (error) {
                 console.error(error);
                 alert('An error occurred while sending data to the server');
@@ -107,7 +179,9 @@ export function addListeners(): void {
                 const loadingBarContainer = document.getElementById('loading')!;
                 loadingBarContainer.style.display = 'none';
             }
-            sendCommand(Command.Start);
+            if (!isDownloadChecked) {
+                sendCommand(Command.Start);
+            }
         });
     });
 }

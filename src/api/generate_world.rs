@@ -1,13 +1,9 @@
-use actix::fut::result;
 use actix_web::{HttpResponse, post, Responder, web};
 use actix_web::http::header::ContentType;
 use log::info;
 use robot_for_visualizer::RobotForVisualizer;
-use robotics_lib::runner::Runner;
-use robotics_lib::utils::LibError;
 use roomba_robot_test::robot::Roomba;
 use serde::{Deserialize, Serialize};
-use serde::de::Unexpected::Str;
 
 use crate::robots::runner::{set_robot, set_wait};
 use crate::world_gen_helper::get_generator;
@@ -22,14 +18,14 @@ struct WorldData {
 }
 
 #[derive(Serialize)]
-struct GenResponse {
-    success: bool,
-    msg: Option<String>,
+pub(crate) struct GenResponse {
+    pub(crate) success: bool,
+    pub(crate) msg: Option<String>,
 }
 
 
 #[post("/generate")]
-async fn generate_world(data: web::Json<WorldData>) -> impl Responder {
+async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
     let req = data.into_inner();
 
     info!(
@@ -54,7 +50,7 @@ async fn generate_world(data: web::Json<WorldData>) -> impl Responder {
             }
         }
     }
-    
+
     info!("World generation completed");
 
     let response = serde_json::to_string(&response).unwrap();

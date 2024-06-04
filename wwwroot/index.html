@@ -14,32 +14,46 @@
 
 <div class="modal" id="modal">
     <div class="modal-content">
+        <h2>Generate World</h2>
         <form id="generate-form">
-            <h2>WALL•E Visualizer</h2>
+
             <div class="form-group">
-                <label for="world-size">World Size</label>
-                <input id="world-size" max="500" min="25" required type="number" value="100">
+                <label for="world-size">World Size:</label>
+                <input id="world-size" name="world-size" required type="number">
             </div>
-            <div class="form-group-seed">
-                <label for="seed">Seed</label>
-                <input id="seed" required type="number">
-                <button class="seed-button" id="generate-seed" type="button">generate</button>
-            </div>
+
             <div class="form-group">
-                <label for="wait">Wait (ms)</label>
-                <input id="wait" max="2000" min="50" required type="number" value="100">
+                <label for="seed">Seed:</label>
+                <div class="form-group-seed">
+                    <input id="seed" name="seed" required type="number">
+                    <button class="seed-button" id="generate-seed" type="button">Generate</button>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label for="wait">Wait:</label>
+                <input id="wait" name="wait" required type="number">
+            </div>
+
             <div class="form-group">
                 <label for="robot">Robot:</label>
-                <select id="robot" name="robot" required></select><br><br>
+                <select id="robot" name="robot" required></select>
             </div>
 
-            <div class="loading-bar-container" id="loading" style="display:none;">
-                <p>Generating world...</p>
-                <div class="loading-bar"></div>
+            <button class="advanced-button" id="show-advanced" type="button">Show advanced</button>
+            <div id="advanced-options">
+                <div class="form-group">
+                    <label for="upload-world">Upload World:</label>
+                    <input accept=".zst" id="upload-world" name="upload-world" type="file">
+                </div>
+                <div>
+                    <label for="download-world">Download World:</label>
+                    <input id="download-world" name="download-world" type="checkbox">
+                </div>
             </div>
 
-            <button class="generate-button" type="submit">Start</button>
+            <div class="loading-bar" id="loading" style="display: none;">Generating world...</div>
+            <button class="start-button" type="submit">Start</button>
         </form>
     </div>
 </div>

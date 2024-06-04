@@ -11,7 +11,7 @@ use crate::robots::variables::{PAUSE, RUNNER, TERMINATED, WAIT};
 const LOCK_ERROR: &str = "Unable to lock RUNNER";
 
 pub(crate) fn set_robot(runner: Runner) {
-    *RUNNER.lock().expect("unable to gain write access to RUNNER") = SharableRunner::new(Some(runner));
+    *RUNNER.write().expect("unable to gain write access to RUNNER") = SharableRunner::new(Some(runner));
 }
 
 pub(crate) fn run_robot() {
@@ -22,6 +22,7 @@ pub(crate) fn run_robot() {
         info!("Starting the robot");
         loop {
             if PAUSE.load(Relaxed) {
+                info!("Pausing the robot");
                 if TERMINATED.load(Relaxed) {
                     info!("Stopping the robot, Bye Bye");
                     return;
@@ -32,9 +33,9 @@ pub(crate) fn run_robot() {
                 continue;
             }
 
-            match RUNNER.lock().expect(LOCK_ERROR).option_runner.as_mut() {
+            match RUNNER.write().expect(LOCK_ERROR).option_runner.as_mut() {
                 None => {
-                    warn!("Start was called but no robot was found");
+                    warn!("Start was called but no world and robot were found");
                     return;
                 }
                 Some(r) => {
@@ -73,5 +74,5 @@ pub(crate) fn set_wait(wait: u64) {
 }
 
 pub(crate) fn get_robot_data() -> RobotData {
-    RobotData::from(RUNNER.lock().expect(LOCK_ERROR).option_runner.as_ref().expect("trying to read data from a None robot").get_robot())
+    RobotData::from(RUNNER.read().expect(LOCK_ERROR).option_runner.as_ref().expect("trying to read data from a None robot").get_robot())
 }

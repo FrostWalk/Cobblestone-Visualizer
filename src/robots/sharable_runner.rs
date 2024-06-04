@@ -7,3 +7,5 @@ pub(crate) struct SharableRunner {
 }
 
 unsafe impl Send for SharableRunner {}
+
+unsafe impl Sync for SharableRunner {}
