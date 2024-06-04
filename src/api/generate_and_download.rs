@@ -2,8 +2,8 @@ use actix_web::{HttpResponse, post, web};
 use actix_web::http::header::ContentType;
 use log::info;
 use serde::Deserialize;
+use crate::api::CommonResponse;
 
-use crate::api::generate_world::GenResponse;
 use crate::world_gen_helper::generate_and_save;
 
 #[derive(Deserialize)]
@@ -22,7 +22,7 @@ async fn generate_and_download(data: web::Json<WorldData>) -> HttpResponse {
     match generate_and_save(req.world_size, req.seed) {
         Ok(_) => {}
         Err(e) => {
-            let response = GenResponse {
+            let response = CommonResponse {
                 success: false,
                 msg: Some(e),
             };
@@ -32,7 +32,7 @@ async fn generate_and_download(data: web::Json<WorldData>) -> HttpResponse {
 
     info!("World generation completed");
 
-    let response = GenResponse {
+    let response = CommonResponse {
         success: true,
         msg: None,
     };

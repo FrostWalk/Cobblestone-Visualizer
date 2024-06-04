@@ -18,9 +18,7 @@ pub(crate) fn commands_handler(payload: ByteString, socket: &mut WebsocketContex
     };
 
     match request.command() {
-        Command::Start => {
-            run_robot();
-        }
+        Command::Start => { run_robot(); }
         Command::Stop => { stop_robot() }
         Command::Reset => {}
         Command::Pause => { pause_robot() }

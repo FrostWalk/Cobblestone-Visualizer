@@ -5,6 +5,7 @@ use crate::api::generate_and_download::generate_and_download;
 use crate::api::generate_world::generate_world;
 use crate::api::get_available_robots::get_available_robots;
 use crate::api::random_seed::generate_seed;
+use crate::api::upload_world::upload_world;
 use crate::config::WalleConfig;
 use crate::static_files::static_files;
 use crate::websocket::commands_socket::commands_socket;
@@ -32,6 +33,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_available_robots)
             .service(generate_world)
             .service(generate_and_download)
+            .service(upload_world)
             .service(static_files())
     }).bind((WalleConfig::address(), WalleConfig::port()))?.run().await
 }
