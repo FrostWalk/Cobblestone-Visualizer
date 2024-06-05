@@ -1,8 +1,3 @@
-// Enums
-export enum Command {
-    Start = 'Start', Stop = 'Stop', Reset = 'Reset', Pause = 'Pause', Resume = 'Resume'
-}
-
 export enum WeatherType {
     Sunny = 'Sunny',
     Rainy = 'Rainy',
@@ -18,12 +13,7 @@ export enum DayTime {
 export enum LibEventType {
     Ready = 'Ready',
     Terminated = 'Terminated',
-    TimeChanged = 'TimeChanged',
-    DayChanged = 'DayChanged',
-    EnergyRecharged = 'EnergyRecharged',
-    EnergyConsumed = 'EnergyConsumed',
     Moved = 'Moved',
-    TileContentUpdated = 'TileContentUpdated',
     AddedToBackpack = 'AddedToBackpack',
     RemovedFromBackpack = 'RemovedFromBackpack'
 }
@@ -108,10 +98,6 @@ export interface RobotCoordinate {
 export interface RobotBackPack {
     size: number;
     contents: Map<Content, number>;
-}
-
-export interface Request {
-    command: Command;
 }
 
 export interface Update {

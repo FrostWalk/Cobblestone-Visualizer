@@ -225,3 +225,8 @@ input[type=number] {
     width: auto;
     margin-right: 0.5rem;
 }
+
+
+.draw-area {
+    display: none;
+}

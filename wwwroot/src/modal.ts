@@ -1,6 +1,9 @@
 import {BASE_URL} from "./variables";
 import {sendCommand} from "./websocket";
-import {Command} from "./data";
+import {Command} from "./request";
+import {setWait} from "./storage";
+import {showDrawArea} from "./draw";
+
 
 export function addListeners(): void {
     window.addEventListener('load', async () => {
@@ -73,7 +76,7 @@ export function addListeners(): void {
                 (document.getElementById('seed') as HTMLInputElement).disabled = true;
                 (document.getElementById('download-world') as HTMLInputElement).disabled = true;
                 (document.getElementById('generate-seed') as HTMLButtonElement).disabled = true;
-                (document.getElementById('wait') as HTMLInputElement).disabled = true;
+                (document.getElementById('wait') as HTMLInputElement).disabled = false;
                 (document.getElementById('robot') as HTMLSelectElement).disabled = false;
             } else if (downloadWorldCheckbox.checked) {
                 startButton.textContent = 'Download';
@@ -129,6 +132,7 @@ export function addListeners(): void {
                     const formData = new FormData();
                     formData.append('world', file);
                     formData.append('robot', robot);
+                    formData.append('wait', wait);
 
                     const response = await fetch(`${BASE_URL}/uploadWorld`, {
                         method: 'POST',
@@ -139,7 +143,15 @@ export function addListeners(): void {
                         throw new Error('Failed to upload file to the server');
                     }
 
+                    // avvio il robot
+                    setWait(parseInt(wait));
+                    showDrawArea();
                     sendCommand(Command.Start);
+
+                    const modal = document.getElementById('modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
                 } else if (isDownloadChecked) {
                     const response = await fetch(`${BASE_URL}/downloadWorld`, {
                         method: 'POST',
@@ -198,7 +210,7 @@ export function addListeners(): void {
                     // Close notification after 2 seconds
                     setTimeout(() => {
                         notification.remove();
-                    }, 10000);
+                    }, 100000);
 
                     // Hide the modal
                     const modal = document.getElementById('modal');
@@ -211,11 +223,12 @@ export function addListeners(): void {
                 loadingBarContainer.style.display = 'none';
 
                 if (!isDownloadChecked && !isFileSelected) {
+                    setWait(parseInt(wait));
+                    showDrawArea();
                     sendCommand(Command.Start);
                 }
             } catch (error) {
-                console.error(error);
-                alert('An error occurred while sending data to the server');
+                alert(`An error occurred while sending data to the server\n${error}`);
 
                 // Hide the loading bar
                 const loadingBarContainer = document.getElementById('loading')!;

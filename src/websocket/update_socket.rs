@@ -1,5 +1,3 @@
-use std::process::exit;
-
 use actix::prelude::*;
 use actix_web::{Error, HttpRequest, HttpResponse, web};
 use actix_web_actors::ws::{self, Message, ProtocolError};
@@ -8,7 +6,7 @@ use bytestring::ByteString;
 use common_messages::events::LibEvent;
 use common_messages::messages::Environment;
 use futures_util::stream::StreamExt;
-use log::{error, warn};
+use log::{warn};
 use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition};
 use robotics_lib::event::events::Event;
 use tokio_stream::wrappers::IntervalStream;
@@ -69,7 +67,7 @@ impl StreamHandler<Result<ws::Message, ProtocolError>> for UpdateSocket {
                 ctx.close(reason);
                 ctx.stop();
             }
-            Message::Nop => {}
+            Nop => {}
         }
     }
 }
@@ -80,14 +78,21 @@ pub(crate) async fn update_socket(req: HttpRequest, stream: web::Payload) -> Res
 
 fn create_update(event: Event) -> Result<Message, ProtocolError> {
     let event = LibEvent::from(event);
+
+    match event {
+        LibEvent::Ready => {}
+        LibEvent::Terminated => {}
+        LibEvent::Moved(_, _) => {}
+        LibEvent::AddedToBackpack(_, _) => {}
+        LibEvent::RemovedFromBackpack(_, _) => {}
+        _ => {
+            return Ok(Nop);
+        }
+    }
+
     let data = get_robot_data();
     let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
-    let response = match common_messages::messages::Response::new(event, data, env).to_json() {
-        Ok(m) => { m }
-        Err(e) => {
-            error!("{}",e);
-            exit(0)
-        }
-    };
+    let response = common_messages::messages::Response::new(event, data, env).to_json().unwrap();
+
     Ok(Text(ByteString::from(response)))
 }

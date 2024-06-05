@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="world-size">World Size:</label>
-                <input id="world-size" value="100" name="world-size" required type="number">
+                <input id="world-size" name="world-size" required type="number" value="100">
             </div>
 
             <div class="form-group">
@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <label for="wait">Wait:</label>
-                <input id="wait" name="wait" value="100" required type="number">
+                <input id="wait" name="wait" required type="number" value="100">
             </div>
 
             <div class="form-group">
@@ -57,7 +57,47 @@
         </form>
     </div>
 </div>
-
+<div id="draw-area" class="draw-area">
+    <header id="commands">
+        <button id="automatic_tick_processing" onclick="enable_auto_mode()"> automatic tick</button>
+        <button disabled id="stop_auto" onclick="stop_auto_mode()"> stop</button>
+        <button id="next_tick" onclick="process_next_tick()"> next tick</button>
+        <button id="view_content" onclick="view_content()"> disable content</button>
+    </header>
+    <div id="container">
+        <div id="central_panel">
+            <div class="labels">
+                <h3 id="time"><span id="update_time"> 00:00 </span></h3>
+                <h3>Points: <span id="update_points"> 0 </span></h3>
+                <h3>Energy: <span id="update_energy"> 0 </span></h3>
+                <h3><img alt="weather" id="update_weather" src="" width="80"></h3>
+            </div>
+            <ul id="backpack">
+                <li><span><img alt="Tree" src="./images/tree.svg" width="50"></span>: <span id="update_Tree">0</span>
+                </li>
+                <li><span><img alt="Rock" src="./images/rock.svg" width="50"></span>: <span id="update_Rock">0</span>
+                </li>
+                <li><span><img alt="Garbage" src="./images/garbage.svg" width="50"></span>: <span
+                        id="update_Garbage">0</span></li>
+                <li><span><img alt="Fire" src="./images/fire.svg" width="50"></span>: <span id="update_Fire">0</span>
+                </li>
+                <li><span><img alt="Coin" src="./images/coin3.svg" width="50"></span>: <span id="update_Coin">0</span>
+                </li>
+                <li><span><img alt="Water" src="./images/water.svg" width="50"></span>: <span id="update_Water">0</span>
+                </li>
+                <li><span><img alt="Fish" src="./images/fish.svg" width="50"></span>: <span id="update_Fish">0</span>
+                </li>
+                <li><span><img alt="Bush" src="./images/bush.svg" width="50"></span>: <span id="update_Bush">0</span>
+                </li>
+                <li><span><img alt="JollyBlock" src="./images/jollyblock.svg" width="50">: </span><span
+                        id="update_JollyBlock">0</span></li>
+            </ul>
+        </div>
+        <div id="world">
+            <canvas height="2048vmin" id="worldCanvas" width="2048vmin"></canvas>
+        </div>
+    </div>
+</div>
 <script src="dist/bundle.js"></script>
 
 </body>
