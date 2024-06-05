@@ -10,12 +10,9 @@ export enum DayTime {
     Morning = 'Morning', Afternoon = 'Afternoon', Night = 'Night'
 }
 
-export enum LibEventType {
+export enum LibEvent {
     Ready = 'Ready',
     Terminated = 'Terminated',
-    Moved = 'Moved',
-    AddedToBackpack = 'AddedToBackpack',
-    RemovedFromBackpack = 'RemovedFromBackpack'
 }
 
 export enum TileType {
@@ -57,11 +54,6 @@ export interface Environment {
     day_time: DayTime;
 }
 
-export interface LibEvent {
-    type: LibEventType;
-    payload?: any;
-}
-
 export interface EnvironmentalConditions {
     time_progression_minutes: number;
     time_of_day: TimeOfDay;
@@ -101,7 +93,8 @@ export interface RobotBackPack {
 }
 
 export interface Update {
-    event: LibEvent;
+    event: LibEvent | null;
     robot_data: RobotData;
     environmental_condition: Environment;
+    map: (Tile | null)[][];
 }

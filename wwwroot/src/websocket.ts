@@ -1,7 +1,6 @@
 import {Command, Request} from './request';
 import {BASE_URL} from "./variables";
-import {Update} from "./update";
-import {getWait} from "./storage";
+import {LibEvent, Update} from "./update";
 
 // WebSocket connection
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
@@ -27,28 +26,29 @@ export function sendCommand(command: Command): void {
     }
 }
 
-export function createWebSocket() {
+export function initUpdateSocket() {
     const updatesSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/updates`);
-    let disconnections = 0;
 
     updatesSocket.addEventListener('message', (event) => {
         try {
             // Deserializzare il messaggio JSON
             const update: Update = JSON.parse(event.data);
-            console.log('Received update:', update);
+
+            if (update.event == LibEvent.Terminated) {
+                alert("Robot terminated is job, reload the page to start over");
+                sendCommand(Command.Stop);
+                updatesSocket.close();
+                commandSocket.close();
+            }
+
+            console.log(update);
         } catch (error) {
             alert(`Error deserializing update:${error}`);
         }
     });
 
     updatesSocket.addEventListener('close', (event) => {
-        const wait: number = getWait();
         console.log('Disconnected from WebSocket server', event);
-
-        if (disconnections < 3) {
-            disconnections += 1;
-            createWebSocket();
-        }
     });
 
     updatesSocket.addEventListener('error', (error) => {

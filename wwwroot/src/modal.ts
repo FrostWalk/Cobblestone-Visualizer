@@ -1,7 +1,6 @@
 import {BASE_URL} from "./variables";
-import {sendCommand} from "./websocket";
+import {initUpdateSocket, sendCommand} from "./websocket";
 import {Command} from "./request";
-import {setWait} from "./storage";
 import {showDrawArea} from "./draw";
 
 
@@ -67,7 +66,7 @@ export function addListeners(): void {
 
         const uploadWorldInput = document.getElementById('upload-world') as HTMLInputElement;
         const downloadWorldCheckbox = document.getElementById('download-world') as HTMLInputElement;
-        const startButton = document.querySelector('.start-button') as HTMLButtonElement;
+        const startButton = document.getElementById('start-button-title') as HTMLSpanElement;
 
         const updateStartButton = () => {
             if (uploadWorldInput.files && uploadWorldInput.files.length > 0) {
@@ -100,8 +99,8 @@ export function addListeners(): void {
             const isDownloadChecked = downloadWorldCheckbox.checked;
             (document.getElementById('robot') as HTMLSelectElement).disabled = isDownloadChecked;
             (document.getElementById('wait') as HTMLInputElement).disabled = isDownloadChecked;
-            (document.getElementById('generate-seed') as HTMLButtonElement).disabled = isDownloadChecked;
-            const startButton = document.querySelector('.start-button') as HTMLButtonElement;
+            (document.getElementById('generate-seed') as HTMLButtonElement).disabled = false;
+            const startButton = document.getElementById('start-button-title') as HTMLSpanElement;
             startButton.textContent = isDownloadChecked ? 'Download' : (uploadWorldInput.files && uploadWorldInput.files.length > 0 ? 'Upload and start' : 'Start');
             (document.getElementById('upload-world') as HTMLInputElement).disabled = isDownloadChecked;
         });
@@ -144,9 +143,7 @@ export function addListeners(): void {
                     }
 
                     // avvio il robot
-                    setWait(parseInt(wait));
-                    showDrawArea();
-                    sendCommand(Command.Start);
+                    start();
 
                     const modal = document.getElementById('modal');
                     if (modal) {
@@ -223,9 +220,7 @@ export function addListeners(): void {
                 loadingBarContainer.style.display = 'none';
 
                 if (!isDownloadChecked && !isFileSelected) {
-                    setWait(parseInt(wait));
-                    showDrawArea();
-                    sendCommand(Command.Start);
+                    start();
                 }
             } catch (error) {
                 alert(`An error occurred while sending data to the server\n${error}`);
@@ -236,4 +231,10 @@ export function addListeners(): void {
             }
         });
     });
+}
+
+function start() {
+    showDrawArea();
+    sendCommand(Command.Start);
+    initUpdateSocket();
 }

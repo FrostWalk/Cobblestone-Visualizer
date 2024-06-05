@@ -24,9 +24,10 @@
 
             <div class="form-group">
                 <label for="seed">Seed:</label>
-                <div class="form-group-seed">
+                <div class="form-group-seed double"> <!-- Aggiunta la classe double -->
                     <input id="seed" name="seed" required type="number">
-                    <button class="seed-button" id="generate-seed" type="button">Generate</button>
+                    <button class="mc-button-gen" id="generate-seed" type="button"><span class="title">Generate</span>
+                    </button>
                 </div>
             </div>
 
@@ -40,7 +41,13 @@
                 <select id="robot" name="robot" required></select>
             </div>
 
-            <button class="advanced-button" id="show-advanced" type="button">Show advanced</button>
+            <div class="double"> <!-- Aggiunta la classe double -->
+                <button class="mc-button" id="show-advanced" type="button"><span class="title">Show advanced</span>
+                </button>
+                <button class="mc-button" id="start-button" type="submit"><span class="title" id="start-button-title">Start</span>
+                </button>
+            </div>
+
             <div id="advanced-options">
                 <div class="form-group">
                     <label for="upload-world">Upload World:</label>
@@ -53,11 +60,11 @@
             </div>
 
             <div class="loading-bar" id="loading" style="display: none;">Generating world...</div>
-            <button class="start-button" type="submit">Start</button>
         </form>
     </div>
 </div>
-<div id="draw-area" class="draw-area">
+
+<div class="draw-area" id="draw-area">
     <header id="commands">
         <button id="automatic_tick_processing" onclick="enable_auto_mode()"> automatic tick</button>
         <button disabled id="stop_auto" onclick="stop_auto_mode()"> stop</button>
@@ -98,6 +105,7 @@
         </div>
     </div>
 </div>
+
 <script src="dist/bundle.js"></script>
 
 </body>
