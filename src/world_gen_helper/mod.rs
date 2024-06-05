@@ -12,6 +12,8 @@ use zstd::stream::{copy_decode, copy_encode};
 
 use crate::config::WalleConfig;
 
+const TEMP_JSON_NAME: &str = "world.json";
+
 pub(crate) fn get_generator(size: usize, seed: u64) -> Result<OxAgWorldGenerator, String> {
     OxAgWorldGeneratorBuilder::new()
         .set_seed(seed)
@@ -28,7 +30,7 @@ pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
         Err(e) => { return Err(e); }
     };
 
-    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), "world.json");
+    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), TEMP_JSON_NAME);
     world_generator.save(path.as_str()).map_err(|e| format!("{e}"))?;
     let mut file = File::open(path.clone()).map_err(|e| format!("{e}"))?;
 
@@ -40,7 +42,7 @@ pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
 
     let mut dest: File = File::create(zstdpath).map_err(|e| format!("{e}"))?;
 
-    copy_encode(contents.as_slice(), &mut dest, 14).map_err(|e| format!("{e}"))?;
+    copy_encode(contents.as_slice(), &mut dest, 16).map_err(|e| format!("{e}"))?;
 
     let _ = remove_file(path);
 
@@ -58,10 +60,10 @@ pub(crate) fn load_world(name: String) -> Result<OxAgWorldGenerator, String> {
     let mut expanded: Vec<u8> = Vec::with_capacity(file_content.len() * 10);
     copy_decode(file_content.as_slice(), &mut expanded).map_err(|e| format!("{e}"))?;
 
-    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), "world.json");
+    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), TEMP_JSON_NAME);
 
     let mut file = File::create(path.as_str()).map_err(|e| format!("{e}"))?;
-    
+
     file.write_all(expanded.as_slice()).map_err(|e| format!("{e}"))?;
 
     let _ = remove_file(zstdpath);
