@@ -9,5 +9,8 @@
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "ws": "^8.17.0"
+  },
+  "dependencies": {
+    "@south-paw/typeface-minecraft": "^1.0.0"
   }
 }
