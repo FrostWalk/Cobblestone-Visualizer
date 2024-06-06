@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label for="wait">Wait:</label>
-                <input id="wait" name="wait" required type="number" value="100">
+                <input id="wait" name="wait" min="100" required type="number" value="500">
             </div>
             <div class="form-group">
                 <label for="robot">Robot:</label>
@@ -95,6 +95,7 @@
     <div class="stats">
         <label for="time">Time:</label>
         <span id="time">00:00</span>
+        <span id="day-time"></span>
     </div>
     <div class="stats">
         <label for="coordinates">Coordinates:</label>

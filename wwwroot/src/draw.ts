@@ -10,24 +10,3 @@ export function resizeCanvas(): void {
         canvas.height = window.innerHeight - containerHeight - verticalMargin;
     }
 }
-
-export function setEnergy(value: string): void {
-    const energyElement = document.getElementById('energy');
-    if (energyElement) {
-        energyElement.textContent = value;
-    }
-}
-
-export function setTime(value: string): void {
-    const timeElement = document.getElementById('time');
-    if (timeElement) {
-        timeElement.textContent = value;
-    }
-}
-
-export function setCoordinates(value: string): void {
-    const coordinatesElement = document.getElementById('coordinates');
-    if (coordinatesElement) {
-        coordinatesElement.textContent = value;
-    }
-}

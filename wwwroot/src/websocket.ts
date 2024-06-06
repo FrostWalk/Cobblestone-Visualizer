@@ -1,6 +1,7 @@
 import {Command, Request} from './request';
 import {BASE_URL} from "./variables";
 import {LibEvent, Update} from "./update";
+import {setCoordinates, setEnergy, setTime} from "./statistics";
 
 // WebSocket connection
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
@@ -44,14 +45,19 @@ export function initUpdateSocket() {
 
     updatesSocket.addEventListener('message', (event) => {
         try {
-            // Deserializzare il messaggio JSON
             const update: Update = JSON.parse(event.data);
-            console.log(update.robot_data.backpack);
+
+            setCoordinates(update.robot_data.coordinate);
+            setEnergy(update.robot_data.energy_level);
+            setTime(update.environment.time, update.environment.day_time);
+            //setBackpack(update.robot_data.backpack);
+
+            console.log(update);
+
             if (update.event == LibEvent.Terminated) {
                 alert("Robot terminated is job, reload the page to start over");
                 sendCommand(Command.Stop);
                 closeSockets();
-
             }
         } catch (error) {
             alert(`Error deserializing update:${error}`);
@@ -64,7 +70,7 @@ export function initUpdateSocket() {
     });
 }
 
-export function closeSockets(){
+export function closeSockets() {
     updatesSocket.close();
     commandSocket.close();
 }

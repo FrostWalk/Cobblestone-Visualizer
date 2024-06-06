@@ -54,7 +54,8 @@ pub(crate) fn run_robot() {
 }
 
 pub(crate) fn stop_robot() {
-    TERMINATED.store(true, SeqCst)
+    TERMINATED.store(true, SeqCst);
+    RUNNER.write().expect("Unable to lock RUNNER in write mode (stop_robot)").option_runner = None;
 }
 
 pub(crate) fn pause_robot() {

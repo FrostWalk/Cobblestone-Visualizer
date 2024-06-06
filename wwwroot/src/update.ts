@@ -83,6 +83,6 @@ export interface RobotBackPack {
 export interface Update {
     event: LibEvent | null;
     robot_data: RobotData;
-    environmental_condition: Environment;
+    environment: Environment;
     map: (Tile | null)[][];
 }
