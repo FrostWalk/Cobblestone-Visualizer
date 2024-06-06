@@ -6,7 +6,7 @@ use crate::api::generate_world::generate_world;
 use crate::api::get_available_robots::get_available_robots;
 use crate::api::random_seed::generate_seed;
 use crate::api::upload_world::upload_world;
-use crate::config::WalleConfig;
+use crate::config::CobblestoneConfig;
 use crate::static_files::static_files;
 use crate::websocket::commands_socket::commands_socket;
 use crate::websocket::update_socket::update_socket;
@@ -20,10 +20,10 @@ mod api;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    WalleConfig::load();
+    CobblestoneConfig::load();
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
-    info!("Starting server at http://{}:{}/", WalleConfig::address(), WalleConfig::port());
+    info!("Starting server at http://{}:{}/", CobblestoneConfig::address(), CobblestoneConfig::port());
 
     HttpServer::new(move || {
         App::new()
@@ -35,5 +35,5 @@ async fn main() -> std::io::Result<()> {
             .service(generate_and_download)
             .service(upload_world)
             .service(static_files())
-    }).bind_auto_h2c((WalleConfig::address(), WalleConfig::port()))?.run().await
+    }).bind_auto_h2c((CobblestoneConfig::address(), CobblestoneConfig::port()))?.run().await
 }

@@ -1,7 +1,7 @@
 use actix_files::Files;
 
-use crate::config::WalleConfig;
+use crate::config::CobblestoneConfig;
 
 pub fn static_files() -> Files {
-    Files::new("/", WalleConfig::static_files_path()).index_file(WalleConfig::index())
+    Files::new("/", CobblestoneConfig::static_files_path()).index_file(CobblestoneConfig::index())
 }

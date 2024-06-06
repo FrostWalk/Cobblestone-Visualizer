@@ -166,7 +166,7 @@ export function addListeners(): void {
                     }
 
                     // Download the file using fetch
-                    const downloadUrl = `${BASE_URL}/worlds/wall-e_world.zst`;
+                    const downloadUrl = `${BASE_URL}/worlds/cobblestone_world.zst`;
                     try {
                         const downloadResponse = await fetch(downloadUrl);
 
@@ -175,7 +175,7 @@ export function addListeners(): void {
                         }
 
                         const blob = await downloadResponse.blob();
-                        const filename = 'wall-e_world.zst'; // Adjust filename if needed
+                        const filename = 'cobblestone_world.zst'; // Adjust filename if needed
 
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(blob);

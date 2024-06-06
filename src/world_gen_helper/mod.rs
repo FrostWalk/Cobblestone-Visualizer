@@ -10,7 +10,7 @@ use oxagworldgenerator::world_generator::presets::tile_type_presets::OxAgTileTyp
 use oxagworldgenerator::world_generator::world_generator_builder::OxAgWorldGeneratorBuilder;
 use zstd::stream::{copy_decode, copy_encode};
 
-use crate::config::WalleConfig;
+use crate::config::CobblestoneConfig;
 
 const TEMP_JSON_NAME: &str = "world.json";
 
@@ -30,15 +30,15 @@ pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
         Err(e) => { return Err(e); }
     };
 
-    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), TEMP_JSON_NAME);
+    let path = format!("{}/{}/{}", CobblestoneConfig::static_files_path(), CobblestoneConfig::file_dir(), TEMP_JSON_NAME);
     world_generator.save(path.as_str()).map_err(|e| format!("{e}"))?;
     let mut file = File::open(path.clone()).map_err(|e| format!("{e}"))?;
 
     let mut contents = Vec::new();
     file.read_to_end(&mut contents).map_err(|e| format!("{e}"))?;
 
-    let zstdpath = Path::new(WalleConfig::static_files_path().as_str())
-        .join(WalleConfig::file_dir().as_str()).join("wall-e_world.zst");
+    let zstdpath = Path::new(CobblestoneConfig::static_files_path().as_str())
+        .join(CobblestoneConfig::file_dir().as_str()).join("cobblestone_world.zst");
 
     let mut dest: File = File::create(zstdpath).map_err(|e| format!("{e}"))?;
 
@@ -50,8 +50,8 @@ pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
 }
 
 pub(crate) fn load_world(name: String) -> Result<OxAgWorldGenerator, String> {
-    let zstdpath = Path::new(WalleConfig::static_files_path().as_str())
-        .join(WalleConfig::file_dir().as_str()).join(name);
+    let zstdpath = Path::new(CobblestoneConfig::static_files_path().as_str())
+        .join(CobblestoneConfig::file_dir().as_str()).join(name);
     let mut file = File::open(zstdpath.clone()).map_err(|e| { format!("{}", e) })?;
 
     let mut file_content = Vec::with_capacity(8000);
@@ -60,7 +60,7 @@ pub(crate) fn load_world(name: String) -> Result<OxAgWorldGenerator, String> {
     let mut expanded: Vec<u8> = Vec::with_capacity(file_content.len() * 10);
     copy_decode(file_content.as_slice(), &mut expanded).map_err(|e| format!("{e}"))?;
 
-    let path = format!("{}/{}/{}", WalleConfig::static_files_path(), WalleConfig::file_dir(), TEMP_JSON_NAME);
+    let path = format!("{}/{}/{}", CobblestoneConfig::static_files_path(), CobblestoneConfig::file_dir(), TEMP_JSON_NAME);
 
     let mut file = File::create(path.as_str()).map_err(|e| format!("{e}"))?;
 

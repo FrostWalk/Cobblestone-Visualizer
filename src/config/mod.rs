@@ -5,7 +5,7 @@ use lazy_static::lazy_static;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
-pub(crate) struct WalleConfig {
+pub(crate) struct CobblestoneConfig {
     address: String,
     port: u16,
     static_files_path: String,
@@ -14,13 +14,13 @@ pub(crate) struct WalleConfig {
 }
 
 lazy_static! {
-    static ref CONFIG: Arc<RwLock<WalleConfig>> = Arc::new(RwLock::new(WalleConfig::load()));
+    static ref CONFIG: Arc<RwLock<CobblestoneConfig >> = Arc::new(RwLock::new(CobblestoneConfig::load()));
 }
 
-impl WalleConfig {
+impl CobblestoneConfig {
     pub(crate) fn load() -> Self {
         Figment::new()
-            .merge(Env::prefixed("WALLE_"))
+            .merge(Env::prefixed("COBBLESTONE_"))
             .merge(Toml::file("config.toml"))
             .extract().expect("Failed to load configuration")
     }

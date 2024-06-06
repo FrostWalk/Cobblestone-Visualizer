@@ -11,7 +11,7 @@ use roomba_robot_test::robot::Roomba;
 
 use crate::api::CommonResponse;
 use crate::api::get_available_robots::AvailableRobots;
-use crate::config::WalleConfig;
+use crate::config::CobblestoneConfig;
 use crate::robots::runner::set_robot;
 use crate::world_gen_helper::load_world;
 
@@ -39,8 +39,8 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse,
         let content_disposition = field.content_disposition();
         // Estraiamo il filename se presente
         if let Some(filename) = content_disposition.get_filename() {
-            let path = Path::new(WalleConfig::static_files_path().as_str())
-                .join(WalleConfig::file_dir().as_str()).join(filename);
+            let path = Path::new(CobblestoneConfig::static_files_path().as_str())
+                .join(CobblestoneConfig::file_dir().as_str()).join(filename);
             file_name = filename.to_string();
             let mut file = File::create(path)?;
             while let Some(chunk) = field.next().await {

@@ -1,10 +1,10 @@
 use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
-pub struct WalleError {
+pub struct CobblestoneError {
     msg: String,
 }
 
-impl WalleError {
+impl CobblestoneError {
     pub(crate) fn from_str(m: &str) -> String {
         Self::from_string(m.to_string())
     }
@@ -16,20 +16,20 @@ impl WalleError {
     }
 }
 
-impl WalleError {
+impl CobblestoneError {
     pub fn bin_data_not_supported() -> String {
-        WalleError::from_str("Binary data not supported")
+        CobblestoneError::from_str("Binary data not supported")
     }
 }
 
-impl WalleError {
+impl CobblestoneError {
     pub fn command_not_supported() -> String {
-        WalleError::from_str("The command is not supported")
+        CobblestoneError::from_str("The command is not supported")
     }
 }
 
-impl WalleError {
+impl CobblestoneError {
     pub fn frag_not_supported() -> String {
-        WalleError::from_str("This websocket does not support fragmentation")
+        CobblestoneError::from_str("This websocket does not support fragmentation")
     }
 }

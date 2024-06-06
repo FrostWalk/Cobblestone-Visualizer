@@ -4,7 +4,7 @@ use actix_web_actors::ws;
 use actix_web_actors::ws::Message;
 use log::{error, warn};
 
-use crate::websocket::errors::WalleError;
+use crate::websocket::errors::CobblestoneError;
 use crate::websocket::handlers::commands::commands_handler;
 
 pub(crate) struct CommandsSocket;
@@ -27,11 +27,11 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for CommandsSocket {
         match msg {
             Message::Text(message) => { commands_handler(message, socket) }
             Message::Binary(_) => {
-                socket.text(WalleError::bin_data_not_supported());
+                socket.text(CobblestoneError::bin_data_not_supported());
                 warn!("Unexpected binary data received");
             }
             Message::Continuation(_) => {
-                socket.text(WalleError::frag_not_supported());
+                socket.text(CobblestoneError::frag_not_supported());
                 warn!("Fragmentation received")
             }
             Message::Ping(m) => { socket.pong(&m) }
@@ -41,7 +41,7 @@ impl StreamHandler<Result<Message, ws::ProtocolError>> for CommandsSocket {
                 socket.stop();
             }
             Message::Nop => {
-                socket.text(WalleError::command_not_supported())
+                socket.text(CobblestoneError::command_not_supported())
             }
         }
     }
