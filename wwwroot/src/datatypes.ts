@@ -67,7 +67,7 @@ export interface Content {
 export interface RobotData {
     energy_level: number;
     coordinate: RobotCoordinate;
-    backpack: RobotBackPack;
+    backpack: Backpack;
 }
 
 export interface RobotCoordinate {
@@ -75,14 +75,28 @@ export interface RobotCoordinate {
     col: number;
 }
 
-export interface RobotBackPack {
-    size: number;
-    contents: Map<Content, number>;
-}
-
 export interface Update {
     event: LibEvent | null;
     robot_data: RobotData;
     environment: Environment;
     map: (Tile | null)[][];
+}
+
+export interface Backpack {
+    Garbage: number;
+    Crate: number;
+    Bush: number;
+    Fish: number;
+    Bin: number;
+    Building: number;
+    None: number;
+    JollyBlock: number;
+    Scarecrow: number;
+    Rock: number;
+    Coin: number;
+    Tree: number;
+    Bank: number;
+    Market: number;
+    Water: number;
+    Fire: number;
 }

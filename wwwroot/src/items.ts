@@ -1,4 +1,4 @@
-import {Content, ContentType, RobotBackPack} from "./update";
+import {Backpack} from "./datatypes";
 
 function stoneShow(show: boolean): void {
     const elem = document.getElementById("stone");
@@ -135,34 +135,14 @@ function setJollyNumber(number: number | undefined): void {
     }
 }
 
-export function setBackpack(backpack: RobotBackPack): void {
-    let content: Content = {
-        type: ContentType.Rock
-    }
-    console.log(backpack.contents);
-    setStoneNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Tree;
-    setWoodNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Water;
-    setWaterNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Coin;
-    setCoinNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Fire;
-    setFireNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Garbage;
-    setTrashNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Fish;
-    setFishNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.Bush;
-    setBushNumber(backpack.contents.get(content) || 0);
-
-    content.type = ContentType.JollyBlock;
-    setJollyNumber(backpack.contents.get(content) || 0);
+export function setBackpack(backpack: Backpack): void {
+    setStoneNumber(backpack.Rock);
+    setWoodNumber(backpack.Tree);
+    setTrashNumber(backpack.Garbage);
+    setFireNumber(backpack.Fire);
+    setCoinNumber(backpack.Coin);
+    setWaterNumber(backpack.Water);
+    setFishNumber(backpack.Fish);
+    setBushNumber(backpack.Bush);
+    setJollyNumber(backpack.JollyBlock);
 }

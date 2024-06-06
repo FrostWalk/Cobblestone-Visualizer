@@ -1,4 +1,4 @@
-import {RobotCoordinate} from "./update";
+import {RobotCoordinate} from "./datatypes";
 
 export function setEnergy(value: number): void {
     const elem = document.getElementById("energy") as HTMLSpanElement;

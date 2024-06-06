@@ -20,7 +20,7 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
 
 
     let event = get_event_from_queue();
-    
+
     let response = if event.is_some() {
         let event = LibEvent::from(event.unwrap());
 
@@ -30,6 +30,9 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
             }
             LibEvent::Terminated => {
                 Some(LibEvent::Terminated)
+            }
+            _ => {
+                None
             }
         };
         Response::new(event, data, env, map).to_json().unwrap()

@@ -1,7 +1,8 @@
 import {Command, Request} from './request';
 import {BASE_URL} from "./variables";
-import {LibEvent, Update} from "./update";
+import {LibEvent, Update} from "./datatypes";
 import {setCoordinates, setEnergy, setTime} from "./statistics";
+import {setBackpack} from "./items";
 
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
 let updatesSocket: WebSocket;
@@ -47,9 +48,7 @@ export function initUpdateSockets() {
             setCoordinates(update.robot_data.coordinate);
             setEnergy(update.robot_data.energy_level);
             setTime(update.environment.time, update.environment.day_time);
-            //setBackpack(update.robot_data.backpack);
-
-            console.log(update.robot_data.backpack);
+            setBackpack(update.robot_data.backpack);
 
             if (update.event == LibEvent.Terminated) {
                 alert("Robot terminated is job, reload the page to start over");
