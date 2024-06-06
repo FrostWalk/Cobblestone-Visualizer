@@ -3,32 +3,8 @@ import {BASE_URL} from "./variables";
 import {LibEvent, Update} from "./update";
 import {setCoordinates, setEnergy, setTime} from "./statistics";
 
-// WebSocket connection
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
-const updatesSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/updates`);
-
-commandSocket.addEventListener('message', (event) => {
-});
-
-commandSocket.addEventListener('close', () => {
-    console.log('Disconnected from command socket');
-});
-
-commandSocket.addEventListener('open', () => {
-    console.log('Connected to command socket');
-});
-
-commandSocket.addEventListener('error', (error) => {
-    alert(`Command socket error: ${error}`)
-});
-
-updatesSocket.addEventListener('open', () => {
-    console.log('Connected to update socket');
-});
-
-updatesSocket.addEventListener('close', (event) => {
-    console.log('Disconnected from update socket', event);
-});
+let updatesSocket: WebSocket;
 
 export function sendCommand(command: Command): void {
     const request: Request = {
@@ -37,11 +13,32 @@ export function sendCommand(command: Command): void {
     if (commandSocket.readyState === WebSocket.OPEN) {
         commandSocket.send(JSON.stringify(request));
     } else {
-        alert(`WebSocket is not open. ${commandSocket.readyState}`);
+        alert(`Command socket is not open. ${commandSocket.readyState}`);
     }
 }
 
-export function initUpdateSocket() {
+export function initUpdateSockets() {
+    updatesSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/updates`);
+
+    commandSocket.addEventListener('close', () => {
+        console.log('Disconnected from command socket');
+    });
+
+    commandSocket.addEventListener('open', () => {
+        console.log('Connected to command socket');
+    });
+
+    commandSocket.addEventListener('error', (error) => {
+        alert(`Command socket error: ${error}`)
+    });
+
+    updatesSocket.addEventListener('open', () => {
+        console.log('Connected to update socket');
+    });
+
+    updatesSocket.addEventListener('close', (event) => {
+        console.log('Disconnected from update socket', event);
+    });
 
     updatesSocket.addEventListener('message', (event) => {
         try {
@@ -52,7 +49,7 @@ export function initUpdateSocket() {
             setTime(update.environment.time, update.environment.day_time);
             //setBackpack(update.robot_data.backpack);
 
-            console.log(update);
+            console.log(update.robot_data.backpack);
 
             if (update.event == LibEvent.Terminated) {
                 alert("Robot terminated is job, reload the page to start over");

@@ -1,5 +1,5 @@
 import {BASE_URL, setRobot, setSeed, setSize} from "./variables";
-import {closeSockets, initUpdateSocket, sendCommand} from "./websocket";
+import {closeSockets, initUpdateSockets, sendCommand} from "./websocket";
 import {Command} from "./request";
 import {resizeCanvas} from "./draw";
 
@@ -19,7 +19,7 @@ export function addListeners(): void {
                 throw new Error('Failed to fetch robots from the server');
             }
             const data = await response.json();
-            const robots = data.robots; // Estrarre l'array di robot dalla chiave "robots"
+            const robots = data.robots;
             if (!Array.isArray(robots)) {
                 throw new Error('Response data is not an array');
             }
@@ -229,6 +229,6 @@ export function addListeners(): void {
 }
 
 function start() {
+    initUpdateSockets();
     sendCommand(Command.Start);
-    initUpdateSocket();
 }
