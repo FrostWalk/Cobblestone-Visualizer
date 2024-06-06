@@ -18,13 +18,6 @@ export function setEnergy(value: string): void {
     }
 }
 
-export function setBackpack(value: string): void {
-    const backpackElement = document.getElementById('backpack');
-    if (backpackElement) {
-        backpackElement.textContent = value;
-    }
-}
-
 export function setTime(value: string): void {
     const timeElement = document.getElementById('time');
     if (timeElement) {

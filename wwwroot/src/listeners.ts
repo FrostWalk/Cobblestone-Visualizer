@@ -1,4 +1,4 @@
-import {BASE_URL} from "./variables";
+import {BASE_URL, setRobot, setSeed, setSize} from "./variables";
 import {closeSockets, initUpdateSocket, sendCommand} from "./websocket";
 import {Command} from "./request";
 import {resizeCanvas} from "./draw";
@@ -141,6 +141,9 @@ export function addListeners(): void {
                     }
 
                     start();
+                    setSize('?');
+                    setSeed('?');
+                    setRobot(robot);
 
                     const modal = document.getElementById('modal');
                     if (modal) {
@@ -206,6 +209,9 @@ export function addListeners(): void {
                 loadingBarContainer.style.display = 'none';
 
                 if (!isDownloadChecked && !isFileSelected) {
+                    setSize(worldSize);
+                    setSeed(seed);
+                    setRobot(robot);
                     start();
                 }
             } catch (error) {
