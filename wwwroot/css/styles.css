@@ -9,32 +9,25 @@ html {
 }
 
 body {
-    height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    background-color: #fff;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.container {
-    padding: 2rem;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: flex;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
     justify-content: center;
     align-items: center;
 }
@@ -67,13 +60,13 @@ body {
     border-radius: 4px;
     box-sizing: border-box;
     background-color: white;
-    appearance: none; /* Remove default arrow in modern browsers */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 16px;
-    margin-bottom: 1rem; /* Add spacing to match other form groups */
+    margin-bottom: 1rem;
 }
 
 .form-group label {
@@ -107,28 +100,14 @@ body {
     margin-bottom: -0.5rem;
 }
 
-/* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
-}
-
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    z-index: 1000;
-    animation: fadeOut 2s forwards;
 }
 
 @keyframes fadeOut {
@@ -152,6 +131,23 @@ input[type=number] {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+}
+
+.stats {
+    background-color: #f0f0f0; /* Colore di sfondo per risalto */
+    padding: 15px; /* Spazio interno */
+    margin-bottom: 20px; /* Spazio tra i div */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per risalto */
+    border: none; /* Nessun bordo */
+    border-radius: 5px; /* Angoli arrotondati opzionali */
+}
+
+.spaced-div {
+    margin-bottom: 20px; /* Aggiungi spazio di 20px tra i div */
+}
+
+.centered{
+    text-align: center;
 }
 
 .loading-bar::after {
@@ -189,11 +185,6 @@ input[type=number] {
     margin-right: 0.5rem;
 }
 
-
-.draw-area {
-    display: none;
-}
-
 .mc-button-gen {
     height: 40px;
     width: 110px;
@@ -201,7 +192,7 @@ input[type=number] {
     overflow: hidden;
     white-space: nowrap;
     user-select: none;
-    background: #999 url("https://i.ibb.co/rb2TWXL/bgbtn.png") center/cover;
+    background: #999 url('../../dist/img/bgbtn.png') center/cover;
     image-rendering: pixelated;
     border: 2px solid #000;
     display: inline-block;
@@ -219,7 +210,7 @@ input[type=number] {
 }
 
 .mc-button-gen .title {
-    font: 10pt 'Minecraftia', sans-serif;
+    font: 12pt 'Minecraftia', sans-serif;
     width: 100%;
     height: 100%;
     padding-bottom: 0.3em;
@@ -243,7 +234,7 @@ input[type=number] {
     overflow: hidden;
     white-space: nowrap;
     user-select: none;
-    background: #999 url("https://i.ibb.co/rb2TWXL/bgbtn.png") center/cover;
+    background: #999 url('../../dist/img/bgbtn.png') center/cover;
     image-rendering: pixelated;
     border: 2px solid #000;
     display: inline-block;
@@ -281,4 +272,129 @@ input[type=number] {
 .mc-button.full {
     width: 100%;
     height: 100%;
+}
+
+.sidebar-left, .sidebar-right {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow-y: auto;
+}
+
+.sidebar-left {
+    left: 0;
+}
+
+.sidebar-right {
+    right: 0;
+}
+
+.draw-area {
+    flex-grow: 1;
+    margin: 10px 210px;
+    border: 2px solid #000;
+    background-color: #f0f0f0;
+}
+
+.inventory-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin-top: 3%;
+    /*justify-content: center;*/
+    flex-direction: column;
+}
+
+.inventory {
+    width: 150px;
+    height: 170px;
+    background: #c6c6c6;
+    border-radius: 3px;
+    box-shadow: 5px 5px 0 #555555, inset 4px 4px 0 #fefefe;
+    padding-top: 5px;
+    padding-left: 5px;
+    text-align: center;
+}
+
+.backpack-h1 {
+    text-align: center;
+    margin: 5px 10px;
+    font-family: 'Minecraftia', sans-serif;;
+    font-size: 15px;
+    color: #404040;
+}
+
+.number {
+    font-family: 'Minecraftia', sans-serif;;
+    font-size: 18px;
+    color: #fefefe;
+    position: relative;
+    text-shadow: #333 1px 2px 1px;
+    top: -20px;
+    right: -8px;
+    cursor: default;
+}
+
+.slot {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    background: #8b8b8b;
+    box-shadow: inset 2px 2px 0 rgba(55, 55, 55, 0.8),
+    inset -2px -2px 0 #ffffff;
+}
+
+.slotSpace {
+    margin: 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center horizontally */
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.item {
+    margin: 2px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+}
+
+.item img {
+    width: 28px;
+}
+
+.ghostItem img {
+    width: 28px;
+}
+
+.ghostItem .number {
+    top: -20px;
+    right: -13px;
+}
+
+::selection {
+    background: transparent;
+}
+
+::-moz-selection {
+    background: transparent;
+}
+
+.copy {
+    font-family: 'Minecraftia', monospace;
+    font-size: 18px;
+    width: 350px;
+    display: flex;
+    justify-content: flex-end;
+    color: #333;
 }

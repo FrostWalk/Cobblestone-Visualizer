@@ -1,3 +1,3 @@
-import {addListeners} from "./modal";
+import {addListeners} from "./listeners";
 
 addListeners();

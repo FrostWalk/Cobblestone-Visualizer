@@ -1,10 +1,16 @@
 import {BASE_URL} from "./variables";
-import {initUpdateSocket, sendCommand} from "./websocket";
+import {closeSockets, initUpdateSocket, sendCommand} from "./websocket";
 import {Command} from "./request";
-import {showDrawArea} from "./draw";
+import {resizeCanvas} from "./draw";
 
 
 export function addListeners(): void {
+    (document.getElementById('reset') as HTMLButtonElement).addEventListener('click', () => {
+        sendCommand(Command.Stop);
+        closeSockets();
+        window.location.reload();
+    });
+
     window.addEventListener('load', async () => {
         try {
             // Fetch robots and populate dropdown
@@ -28,14 +34,6 @@ export function addListeners(): void {
             console.error(error);
             alert('An error occurred while fetching robots from the server');
         }
-
-        // Show the modal after a short delay
-        setTimeout(() => {
-            const modal = document.getElementById('modal');
-            if (modal) {
-                modal.style.display = 'flex';
-            }
-        }, 200);
 
         // Handle "Generate seed" button click for seed
         document.getElementById('generate-seed')!.addEventListener('click', async function () {
@@ -142,7 +140,6 @@ export function addListeners(): void {
                         throw new Error('Failed to upload file to the server');
                     }
 
-                    // avvio il robot
                     start();
 
                     const modal = document.getElementById('modal');
@@ -198,17 +195,6 @@ export function addListeners(): void {
                         throw new Error('Failed to send data to the server');
                     }
 
-                    // Show notification banner
-                    const notification = document.createElement('div');
-                    notification.classList.add('notification');
-                    notification.textContent = 'World generated successfully';
-                    document.body.appendChild(notification);
-
-                    // Close notification after 2 seconds
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 100000);
-
                     // Hide the modal
                     const modal = document.getElementById('modal');
                     if (modal) {
@@ -231,10 +217,12 @@ export function addListeners(): void {
             }
         });
     });
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', resizeCanvas);
 }
 
 function start() {
-    showDrawArea();
     sendCommand(Command.Start);
     initUpdateSocket();
 }

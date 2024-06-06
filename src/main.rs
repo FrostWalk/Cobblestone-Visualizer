@@ -35,5 +35,5 @@ async fn main() -> std::io::Result<()> {
             .service(generate_and_download)
             .service(upload_world)
             .service(static_files())
-    }).bind((WalleConfig::address(), WalleConfig::port()))?.run().await
+    }).bind_auto_h2c((WalleConfig::address(), WalleConfig::port()))?.run().await
 }

@@ -45,24 +45,12 @@ export enum ContentType {
     Bush = 'Bush',
     JollyBlock = 'JollyBlock',
     Scarecrow = 'Scarecrow',
-    None = 'None'
 }
 
 export interface Environment {
     time: string;
     weather: WeatherType;
     day_time: DayTime;
-}
-
-export interface EnvironmentalConditions {
-    time_progression_minutes: number;
-    time_of_day: TimeOfDay;
-    weather_forecast: WeatherType[];
-}
-
-export interface TimeOfDay {
-    hour: number;
-    minute: number;
 }
 
 export interface Tile {
