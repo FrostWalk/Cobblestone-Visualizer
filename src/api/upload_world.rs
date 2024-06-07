@@ -85,7 +85,7 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse,
             }
         }
         AvailableRobots::Bobot => {}
-        AvailableRobots::Matteo => {}
+        AvailableRobots::ScrapBot => {}
     }
 
     Ok(HttpResponse::Ok().json(response))

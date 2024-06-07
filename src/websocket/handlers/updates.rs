@@ -18,7 +18,6 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
     let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
     let map = get_world_map().deref().clone();
 
-
     let event = get_event_from_queue();
 
     let response = if event.is_some() {

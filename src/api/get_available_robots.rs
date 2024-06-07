@@ -12,7 +12,7 @@ struct RobotsResponse {
 pub(crate) enum AvailableRobots {
     Roomba,
     Bobot,
-    Matteo,
+    ScrapBot,
 }
 
 #[get("/robots")]
@@ -34,7 +34,7 @@ impl From<String> for AvailableRobots {
         match value.as_str() {
             "Roomba" => { AvailableRobots::Roomba }
             "Bobot" => { AvailableRobots::Bobot }
-            "Matteo" => { AvailableRobots::Matteo }
+            "Matteo" => { AvailableRobots::ScrapBot }
             _ => {
                 unreachable!()
             }

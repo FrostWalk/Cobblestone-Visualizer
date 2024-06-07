@@ -64,7 +64,7 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
             }
         }
         AvailableRobots::Bobot => {}
-        AvailableRobots::Matteo => {}
+        AvailableRobots::ScrapBot => {}
     }
 
     info!("World generation completed");

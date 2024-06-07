@@ -10,9 +10,9 @@ lazy_static = "1.4.0"
 tokio = { version = "1.37.0", features = ["time", "rt", "rt-multi-thread", "macros"] }
 roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
 common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git" }
-robotics_lib = { git = "ssh://git@github.com/Advanced-Programming-2023/Robotic-Lib.git" }
 robot-for-visualizer = { git = "ssh://git@github.com/RustyPripyat/robot-for-visualizer.git" }
-oxagworldgenerator = { git = "ssh://git@github.com/RustyPripyat/oxagworldgenerator.git" }
+oxagworldgenerator = { version = "0.1.4", registry = "kellnr" }
+robotics_lib = { version = "0.1.21", registry = "kellnr" }
 actix-web = "4.6.0"
 figment = { version = "0.10.19", features = ["env", "toml"] }
 serde = { version = "1.0.203", features = ["derive"] }
