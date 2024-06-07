@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="debug, build &amp; firefox" type="CompoundRunConfigurationType">
+    <toRun name="debug" type="CargoCommandRunConfiguration" />
+    <toRun name="build typescript" type="js.build_tools.npm" />
+    <toRun name="firefox" type="ShConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
