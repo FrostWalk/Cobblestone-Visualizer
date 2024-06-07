@@ -302,11 +302,11 @@ input[type=number] {
 
 .inventory-main {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
-    margin-top: 3%;
-    /*justify-content: center;*/
+    margin-top: 15%;
     flex-direction: column;
+    margin-bottom: 20%;
 }
 
 .inventory {
