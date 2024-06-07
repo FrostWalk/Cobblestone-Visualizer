@@ -6,7 +6,7 @@ use actix_web_actors::ws::Message::{Nop, Text};
 use bytestring::ByteString;
 use common_messages::events::LibEvent;
 use common_messages::messages::{Environment, Response};
-use log::warn;
+use log::{info, warn};
 use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition, get_world_map};
 
 use crate::robots::runner::get_robot_data;
@@ -20,6 +20,10 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
 
     let event = get_event_from_queue();
 
+/*    if map.iter().any(|row| row.iter().any(|cell| cell.is_some())) {
+        info!("Some");
+    }
+*/    
     let response = if event.is_some() {
         let event = LibEvent::from(event.unwrap());
 
