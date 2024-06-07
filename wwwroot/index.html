@@ -35,12 +35,12 @@
                 <select id="robot" name="robot" required></select>
             </div>
             <div class="double">
-                <button class="mc-button" id="show-advanced" type="button"><span class="title">Show advanced</span>
+                <button class="mc-button" id="show-advanced" type="button"><span id="show-advanced-title" class="title">Show advanced</span>
                 </button>
                 <button class="mc-button" id="start-button" type="submit"><span class="title" id="start-button-title">Start</span>
                 </button>
             </div>
-            <div id="advanced-options">
+            <div id="advanced-options" class="advanced-options">
                 <div class="form-group">
                     <label for="upload-world">Upload World:</label>
                     <input accept=".zst" id="upload-world" name="upload-world" type="file">
@@ -167,6 +167,6 @@
     </div>
 </div>
 
-<script src="dist/bundle.js"></script>
 </body>
+<script src="dist/bundle.js"></script>
 </html>

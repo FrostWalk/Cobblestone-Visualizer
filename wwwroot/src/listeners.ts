@@ -55,9 +55,16 @@ export function addListeners(): void {
         // Handle "show advanced" click
         const showAdvanced = document.getElementById('show-advanced');
         const advancedOptions = document.getElementById('advanced-options');
-        if (showAdvanced && advancedOptions) {
+        const advanceTitle = document.getElementById('show-advanced-title');
+        if (showAdvanced && advancedOptions && advanceTitle) {
             showAdvanced.addEventListener('click', () => {
-                advancedOptions.style.display = (advancedOptions.style.display === 'none' ? 'block' : 'none');
+                if (advancedOptions.style.display == '' || advancedOptions.style.display == 'none') {
+                    advancedOptions.style.display = 'block';
+                    advanceTitle.textContent = 'Hide';
+                }  else {
+                    advancedOptions.style.display = 'none';
+                    advanceTitle.textContent = 'Show advanced';
+                }
             });
         }
 
@@ -67,7 +74,7 @@ export function addListeners(): void {
 
         const updateStartButton = () => {
             if (uploadWorldInput.files && uploadWorldInput.files.length > 0) {
-                startButton.textContent = 'Upload and Start';
+                startButton.textContent = 'Upload & start';
                 (document.getElementById('world-size') as HTMLInputElement).disabled = true;
                 (document.getElementById('seed') as HTMLInputElement).disabled = true;
                 (document.getElementById('download-world') as HTMLInputElement).disabled = true;

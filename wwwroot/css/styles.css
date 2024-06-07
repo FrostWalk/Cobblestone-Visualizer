@@ -241,6 +241,10 @@ input[type=number] {
     margin: 0 auto;
 }
 
+.advanced-options{
+    display: none;
+}
+
 .double {
     display: flex;
     justify-content: space-between;
