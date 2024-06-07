@@ -146,7 +146,7 @@ input[type=number] {
     margin-bottom: 20px; /* Aggiungi spazio di 20px tra i div */
 }
 
-.centered{
+.centered {
     text-align: center;
 }
 
@@ -397,4 +397,20 @@ input[type=number] {
     display: flex;
     justify-content: flex-end;
     color: #333;
+}
+
+.responsive-img-container {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 500px; /* Maximum width of the container */
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.responsive-img-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }

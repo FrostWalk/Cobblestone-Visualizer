@@ -63,7 +63,7 @@ function jollyShow(show: boolean): void {
     }
 }
 
-function setStoneNumber(number: number | undefined): void {
+export function setStoneNumber(number: number | undefined): void {
     const elem = document.getElementById("stone-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -71,7 +71,7 @@ function setStoneNumber(number: number | undefined): void {
     }
 }
 
-function setWoodNumber(number: number | undefined): void {
+export function setWoodNumber(number: number | undefined): void {
     const elem = document.getElementById("wood-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -79,7 +79,7 @@ function setWoodNumber(number: number | undefined): void {
     }
 }
 
-function setCoinNumber(number: number | undefined): void {
+export function setCoinNumber(number: number | undefined): void {
     const elem = document.getElementById("coin-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -87,7 +87,7 @@ function setCoinNumber(number: number | undefined): void {
     }
 }
 
-function setFireNumber(number: number | undefined): void {
+export function setFireNumber(number: number | undefined): void {
     const elem = document.getElementById("fire-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -95,7 +95,7 @@ function setFireNumber(number: number | undefined): void {
     }
 }
 
-function setWaterNumber(number: number | undefined): void {
+export function setWaterNumber(number: number | undefined): void {
     const elem = document.getElementById("water-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -103,7 +103,7 @@ function setWaterNumber(number: number | undefined): void {
     }
 }
 
-function setTrashNumber(number: number | undefined): void {
+export function setTrashNumber(number: number | undefined): void {
     const elem = document.getElementById("trash-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -111,7 +111,7 @@ function setTrashNumber(number: number | undefined): void {
     }
 }
 
-function setFishNumber(number: number | undefined): void {
+export function setFishNumber(number: number | undefined): void {
     const elem = document.getElementById("fish-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -119,7 +119,7 @@ function setFishNumber(number: number | undefined): void {
     }
 }
 
-function setBushNumber(number: number | undefined): void {
+export function setBushNumber(number: number | undefined): void {
     const elem = document.getElementById("bush-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
@@ -127,22 +127,10 @@ function setBushNumber(number: number | undefined): void {
     }
 }
 
-function setJollyNumber(number: number | undefined): void {
+export function setJollyNumber(number: number | undefined): void {
     const elem = document.getElementById("jolly-number") as HTMLDivElement;
     if (elem && number != undefined) {
         elem.textContent = number.toString();
         jollyShow(number !== 0);
     }
-}
-
-export function setBackpack(backpack: Backpack): void {
-    setStoneNumber(backpack.Rock);
-    setWoodNumber(backpack.Tree);
-    setTrashNumber(backpack.Garbage);
-    setFireNumber(backpack.Fire);
-    setCoinNumber(backpack.Coin);
-    setWaterNumber(backpack.Water);
-    setFishNumber(backpack.Fish);
-    setBushNumber(backpack.Bush);
-    setJollyNumber(backpack.JollyBlock);
 }
