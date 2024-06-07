@@ -1,8 +1,7 @@
-import {BASE_URL, setRobot, setSeed, setSize} from "./variables";
+import {BASE_URL, IsInPause, setIsInPause, setRobot, setSeed, setSize} from "./variables";
 import {closeSockets, initUpdateSockets, sendCommand} from "./websocket";
 import {Command} from "./request";
 import {resizeCanvas} from "./draw";
-
 
 export function addListeners(): void {
     (document.getElementById('reset') as HTMLButtonElement).addEventListener('click', () => {
@@ -226,6 +225,20 @@ export function addListeners(): void {
 
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('load', resizeCanvas);
+
+    (document.getElementById('pause') as HTMLButtonElement).addEventListener('click', () => {
+        setIsInPause(!IsInPause());
+
+        const btn = document.getElementById('pause') as HTMLButtonElement;
+        const title = document.getElementById('pause-title') as HTMLSpanElement;
+        if (IsInPause() && title && btn) {
+            title.textContent = 'Resume'
+            sendCommand(Command.Pause);
+        } else {
+            title.textContent = 'Pause';
+            sendCommand(Command.Resume);
+        }
+    });
 }
 
 function start() {

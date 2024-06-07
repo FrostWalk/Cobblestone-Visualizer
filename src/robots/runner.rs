@@ -22,7 +22,6 @@ pub(crate) fn run_robot() {
         info!("Starting the robot");
         loop {
             if PAUSE.load(Relaxed) {
-                info!("Pausing the robot");
                 if TERMINATED.load(Relaxed) {
                     info!("Stopping the robot, Bye Bye");
                     return;
