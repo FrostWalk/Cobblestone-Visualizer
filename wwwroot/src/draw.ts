@@ -1,5 +1,8 @@
 import {ContentType, RobotCoordinate, Tile, TileType} from "./datatypes";
-import {setSize} from "./variables";
+import {getWorldSize, setSize} from "./variables";
+
+let CANVAS_SIDE: number;
+let TILE_SIZE: number;
 
 const BIN_IMAGE = new Image();
 BIN_IMAGE.src = 'dist/tiles/bin.webp';
@@ -55,24 +58,27 @@ ROBOT_IMAGE.src = 'dist/tiles/creeper.jpg';
 export function resizeCanvas(): void {
     const canvas = document.getElementById('draw-area') as HTMLCanvasElement;
     const sidebarWidth = 200;
-    const verticalMargin = 20;
+    const verticalMargin = 10;
+
+    CANVAS_SIDE = Math.min(window.innerWidth - sidebarWidth * 2, window.innerHeight - verticalMargin * 2);
+    TILE_SIZE = Math.floor(CANVAS_SIDE / getWorldSize());
+    CANVAS_SIDE = TILE_SIZE * getWorldSize();
+
 
     if (canvas) {
-        canvas.width = window.innerWidth - sidebarWidth * 2;
-        canvas.height = window.innerHeight - verticalMargin;
+        canvas.width = CANVAS_SIDE;
+        canvas.height = CANVAS_SIDE;
     }
 }
 
 export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoordinate) {
-    const canvas = document.getElementById('draw-area') as HTMLCanvasElement;
     setSize(world_map.length.toString());
 
+    const canvas = document.getElementById('draw-area') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const TILE_SIZE = 32;
 
     for (let row = 0; row < world_map.length; row++) {
         for (let col = 0; col < world_map.length; col++) {
@@ -167,5 +173,5 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
             }
         }
     }
-    ctx.drawImage(ROBOT_IMAGE, (coordinate.col), (coordinate.row), TILE_SIZE, TILE_SIZE);
+    ctx.drawImage(ROBOT_IMAGE, (coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 }

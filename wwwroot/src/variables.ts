@@ -1,11 +1,17 @@
 export const BASE_URL = 'http://0.0.0.0:8080';
 let isInPause: boolean = false;
+let world_size: number = 100;
 
 export function setSize(value: string): void {
+    world_size = parseInt(value);
     const elem = document.getElementById("w-size") as HTMLSpanElement;
     if (elem) {
         elem.textContent = value;
     }
+}
+
+export function getWorldSize(): number {
+    return world_size;
 }
 
 export function setSeed(value: string): void {

@@ -1,14 +1,15 @@
 use actix_web::{get, HttpResponse, Responder};
 use actix_web::http::header::ContentType;
+use log::warn;
 use serde::Serialize;
-use strum::{EnumIter, IntoEnumIterator};
+use strum::{EnumIter, EnumString, IntoEnumIterator};
 
 #[derive(Serialize)]
 struct RobotsResponse {
     robots: Vec<String>,
 }
 
-#[derive(Debug, EnumIter)]
+#[derive(Debug, EnumIter, EnumString)]
 pub(crate) enum AvailableRobots {
     Roomba,
     Bobot,
@@ -19,7 +20,6 @@ pub(crate) enum AvailableRobots {
 pub(crate) async fn get_available_robots() -> impl Responder {
     let robots = RobotsResponse {
         robots: AvailableRobots::iter().map(|e| format!("{:?}", e)).collect(),
-
     };
 
     let response = serde_json::to_string(&robots).unwrap();
@@ -30,14 +30,10 @@ pub(crate) async fn get_available_robots() -> impl Responder {
 }
 
 impl From<String> for AvailableRobots {
-    fn from(value: String) -> Self {
-        match value.as_str() {
-            "Roomba" => { AvailableRobots::Roomba }
-            "Bobot" => { AvailableRobots::Bobot }
-            "Matteo" => { AvailableRobots::ScrapBot }
-            _ => {
-                unreachable!()
-            }
-        }
+    fn from(s: String) -> Self {
+        s.parse().unwrap_or_else(|_| {
+            warn!("Invalid robot name: {}", s);
+            unreachable!();
+        })
     }
 }

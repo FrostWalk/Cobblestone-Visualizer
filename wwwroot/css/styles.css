@@ -241,7 +241,7 @@ input[type=number] {
     margin: 0 auto;
 }
 
-.advanced-options{
+.advanced-options {
     display: none;
 }
 
@@ -287,6 +287,7 @@ input[type=number] {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.9);
     overflow-y: auto;
+    border: 2px solid #656565;
 }
 
 .sidebar-left {
@@ -299,7 +300,7 @@ input[type=number] {
 
 .draw-area {
     flex-grow: 1;
-    margin: 10px 210px;
+    margin: 10px auto;
     border: 2px solid #000;
     background-color: #f0f0f0;
 }
