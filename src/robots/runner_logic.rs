@@ -16,9 +16,9 @@ pub(crate) fn set_robot(runner: Runner) {
 
 pub(crate) fn run_robot() {
     TERMINATED.store(false, SeqCst);
-
+    let wait = get_wait();
+    
     tokio::spawn(async move {
-        let wait = get_wait();
         info!("Starting the robot");
         loop {
             if PAUSE.load(Relaxed) {
@@ -27,7 +27,7 @@ pub(crate) fn run_robot() {
                     return;
                 }
 
-                tokio::time::sleep(wait / 2).await;
+                tokio::time::sleep(Duration::from_millis(200)).await;
 
                 continue;
             }

@@ -35,5 +35,5 @@ async fn main() -> std::io::Result<()> {
             .service(generate_and_download)
             .service(upload_world)
             .service(static_files())
-    }).workers(6).bind((CobblestoneConfig::address(), CobblestoneConfig::port()))?.run().await
+    }).workers(4).bind((CobblestoneConfig::address(), CobblestoneConfig::port()))?.run().await
 }

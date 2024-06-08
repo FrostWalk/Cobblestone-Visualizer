@@ -90,3 +90,20 @@ export function setWeather(environment: Environment): void {
             break;
     }
 }
+
+export function addEventEntry(event: string[]): void {
+    const logBox = document.getElementById('log-box') as HTMLDivElement;
+
+    for (let e of event) {
+        while (logBox.children.length > 11) {
+            logBox.removeChild(logBox.firstChild as Node);
+        }
+
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.textContent = e;
+        logBox.appendChild(logEntry);
+
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+}

@@ -12,11 +12,6 @@ export enum DayTime {
     Night = 'Night'
 }
 
-export enum LibEventType {
-    Ready = 'Ready',
-    Terminated = 'Terminated',
-}
-
 export enum TileType {
     DeepWater = 'DeepWater',
     ShallowWater = 'ShallowWater',
@@ -56,11 +51,6 @@ export interface Environment {
     day_time: DayTime;
 }
 
-export interface LibEvent {
-    type: LibEventType;
-    payload?: any;
-}
-
 export interface TimeOfDay {
     hour: number;
     minute: number;
@@ -82,7 +72,7 @@ export interface RobotData {
 }
 
 export interface Update {
-    event: LibEvent | null;
+    event: string[];
     robot_data: RobotData;
     environment: Environment;
     map: (Tile | undefined)[][];

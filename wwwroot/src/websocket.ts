@@ -1,7 +1,7 @@
 import {Command, Request} from './request';
 import {BASE_URL, getRobot} from "./variables";
-import {LibEventType, Update} from "./datatypes";
-import {setBackpack, setCoordinates, setEnergy, setTime, setWeather} from "./statistics";
+import {Update} from "./datatypes";
+import {addEventEntry, setBackpack, setCoordinates, setEnergy, setTime, setWeather} from "./statistics";
 import {drawMap} from "./draw";
 
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
@@ -39,9 +39,6 @@ export function initUpdateSockets() {
 
     updatesSocket.onmessage = (event) => {
         try {
-            if (event.data == 'ping') {
-                return;
-            }
             const update: Update = JSON.parse(event.data);
 
             setCoordinates(update.robot_data.coordinate);
@@ -50,8 +47,9 @@ export function initUpdateSockets() {
             setTime(update.environment);
             setWeather(update.environment);
             drawMap(update.map, update.robot_data.coordinate);
+            addEventEntry(update.event);
 
-            if (update.event && update.event.type == LibEventType.Terminated) {
+            if (update.event[update.event.length - 1] === 'Terminated') {
                 alert(`${getRobot()} terminated his job, reload the page to start over`);
                 sendCommand(Command.Stop);
                 closeSockets();

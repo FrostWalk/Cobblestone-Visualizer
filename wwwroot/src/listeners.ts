@@ -61,7 +61,7 @@ export function addListeners(): void {
                 if (advancedOptions.style.display == '' || advancedOptions.style.display == 'none') {
                     advancedOptions.style.display = 'block';
                     advanceTitle.textContent = 'Hide';
-                }  else {
+                } else {
                     advancedOptions.style.display = 'none';
                     advanceTitle.textContent = 'Show advanced';
                 }
@@ -245,9 +245,27 @@ export function addListeners(): void {
             sendCommand(Command.Resume);
         }
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const logBox = (document.getElementById('log-box') as HTMLDivElement);
+        const toggleLogButton = (document.getElementById('toggle-log') as HTMLButtonElement);
+        const title = (document.getElementById('log-title') as HTMLSpanElement);
+
+        toggleLogButton.addEventListener('click', function () {
+            if (logBox.style.display === 'none' || logBox.style.display === '') {
+                logBox.style.display = 'block';
+                title.textContent = 'Show Logs';
+            } else {
+                logBox.style.display = 'none';
+                title.textContent = 'Hide Logs';
+            }
+        });
+    });
 }
 
 function start() {
-    initUpdateSockets();
-    sendCommand(Command.Start);
+    new Promise(resolve => setTimeout(resolve, 500)).then(() => {
+        sendCommand(Command.Start);
+        initUpdateSockets();
+    });
 }

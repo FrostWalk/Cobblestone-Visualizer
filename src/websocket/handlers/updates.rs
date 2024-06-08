@@ -7,7 +7,7 @@ use bytestring::ByteString;
 use common_messages::events::LibEvent;
 use common_messages::messages::{Environment, Response};
 use log::warn;
-use robot_for_visualizer::{get_day_periods, get_event_from_queue, get_time, get_weather_condition, get_world_map};
+use robot_for_visualizer::{get_all_events_from_queue, get_day_periods, get_time, get_weather_condition, get_world_map};
 
 use crate::robots::runner_logic::get_robot_data;
 use crate::websocket::errors::CobblestoneError;
@@ -22,30 +22,9 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
     let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
     let map = get_world_map().deref().clone();
 
-    let event = get_event_from_queue();
+    let events = get_all_events_from_queue().iter().map(|e| LibEvent::from(e.clone())).collect();
 
-    /*    if map.iter().any(|row| row.iter().any(|cell| cell.is_some())) {
-            info!("Some");
-        }
-    */
-    let response = if event.is_some() {
-        let event = LibEvent::from(event.unwrap());
-
-        let event = match event {
-            LibEvent::Ready => {
-                Some(LibEvent::Ready)
-            }
-            LibEvent::Terminated => {
-                Some(LibEvent::Terminated)
-            }
-            _ => {
-                None
-            }
-        };
-        Response::new(event, data.unwrap(), env, map).to_json().unwrap()
-    } else {
-        Response::new(None, data.unwrap(), env, map).to_json().unwrap()
-    };
+    let response = Response::new(events, data.unwrap(), env, map).to_json().unwrap();
 
     Ok(Text(ByteString::from(response)))
 }

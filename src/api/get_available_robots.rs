@@ -2,13 +2,12 @@ use actix_web::{get, HttpResponse, Responder};
 use actix_web::http::header::ContentType;
 use log::warn;
 use robot_for_visualizer::RobotForVisualizer;
-use robotic_ai_prypiat::bot::Scrapbot;
+use robotic_ai_prypiat::robot::Scrapbot;
 use robotics_lib::runner::Runner;
 use robotics_lib::world::world_generator::Generator;
 use roomba_robot_test::robot::Roomba;
 use serde::Serialize;
 use strum::{EnumIter, EnumString, IntoEnumIterator};
-
 use crate::api::CommonResponse;
 
 #[derive(Serialize)]
