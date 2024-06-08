@@ -71,13 +71,11 @@ export function drawMap(world_map: (Tile | null)[][], coordinate: RobotCoordinat
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const TILE_SIZE = 32;
-    const maxRows = Math.min(world_map.length, Math.ceil(canvas.height / TILE_SIZE));
-    const maxCols = Math.min(world_map[0].length, Math.ceil(canvas.width / TILE_SIZE));
 
-    ctx.drawImage(ROBOT_IMAGE, (coordinate.col + 200) * TILE_SIZE, (coordinate.row + 200) * TILE_SIZE);
-    for (let row = 0; row < maxRows; row++) {
-        for (let col = 0; col < maxCols; col++) {
+    for (let row = 0; row < world_map.length; row++) {
+        for (let col = 0; col < world_map.length; col++) {
             const tile = world_map[row][col];
+            console.log(tile);
             if (tile) {
                 const x = col * TILE_SIZE;
                 const y = row * TILE_SIZE;
@@ -124,49 +122,49 @@ export function drawMap(world_map: (Tile | null)[][], coordinate: RobotCoordinat
                             ctx.drawImage(LUCKY_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
                             break;
                         case ContentType.Building:
-                            alert("building");
                             break;
                         case ContentType.Water:
                             break;
                     }
-                } else {
-                    switch (tile.tile_type) {
-                        case TileType.DeepWater:
-                            ctx.drawImage(DEEP_WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.ShallowWater:
-                            ctx.drawImage(WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Sand:
-                            ctx.drawImage(SAND_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Grass:
-                            ctx.drawImage(GRASS_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Street:
-                            ctx.drawImage(STREET_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Hill:
-                            ctx.drawImage(HILL_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Mountain:
-                            ctx.drawImage(STONE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Snow:
-                            ctx.drawImage(SNOW_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Lava:
-                            ctx.drawImage(LAVA_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Teleport:
-                            ctx.drawImage(TELEPORT_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case TileType.Wall:
-                            ctx.drawImage(WALL_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                    }
                 }
+                switch (tile.tile_type) {
+                    case TileType.DeepWater:
+                        ctx.drawImage(DEEP_WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.ShallowWater:
+                        ctx.drawImage(WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Sand:
+                        ctx.drawImage(SAND_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Grass:
+                        ctx.drawImage(GRASS_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Street:
+                        ctx.drawImage(STREET_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Hill:
+                        ctx.drawImage(HILL_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Mountain:
+                        ctx.drawImage(STONE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Snow:
+                        ctx.drawImage(SNOW_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Lava:
+                        ctx.drawImage(LAVA_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Teleport:
+                        ctx.drawImage(TELEPORT_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case TileType.Wall:
+                        ctx.drawImage(WALL_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                }
+
             }
         }
     }
+    ctx.drawImage(ROBOT_IMAGE, (coordinate.col), (coordinate.row), TILE_SIZE, TILE_SIZE);
 }

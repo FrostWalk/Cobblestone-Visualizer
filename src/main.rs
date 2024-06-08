@@ -35,5 +35,5 @@ async fn main() -> std::io::Result<()> {
             .service(generate_and_download)
             .service(upload_world)
             .service(static_files())
-    }).bind_auto_h2c((CobblestoneConfig::address(), CobblestoneConfig::port()))?.run().await
+    }).workers(8).bind((CobblestoneConfig::address(), CobblestoneConfig::port()))?.run().await
 }
