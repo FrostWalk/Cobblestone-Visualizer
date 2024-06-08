@@ -8,27 +8,29 @@ edition = "2021"
 [dependencies]
 lazy_static = "1.4.0"
 tokio = { version = "1.37.0", features = ["time", "rt", "rt-multi-thread", "macros"] }
-roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
-common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git", branch = "custom-ser" }
-robot-for-visualizer = { git = "ssh://git@github.com/RustyPripyat/robot-for-visualizer.git" }
-oxagworldgenerator = { version = "0.1.4", registry = "kellnr" }
-robotics_lib = { version = "0.1.21", registry = "kellnr" }
-actix-web = "4.6.0"
 figment = { version = "0.10.19", features = ["env", "toml"] }
 serde = { version = "1.0.203", features = ["derive"] }
-actix-web-actors = "4.3.0"
-actix = "0.13.3"
-derive-new = "0.6.0"
 serde_json = "1.0.117"
 log = "0.4.21"
 env_logger = "0.11.3"
 rand = "0.8.5"
 bincode = "1.3.3"
 bytestring = "1.3.1"
-queues = "1.1.0"
 futures-util = "0.3.30"
 tokio-stream = "0.1.15"
 zstd = "0.13.1"
+strum = { version = "0.26.2", features = ["derive"] }
+
+# Internal
+oxagworldgenerator = { version = "0.1.4", registry = "kellnr" }
+robotics_lib = { version = "0.1.21", registry = "kellnr" }
+roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
+common-messages = { git = "ssh://git@github.com/RustyPripyat/common-messages.git" }
+robot-for-visualizer = { git = "ssh://git@github.com/RustyPripyat/robot-for-visualizer.git" }
+
+# Actix
+actix = "0.13.3"
 actix-files = "0.6.5"
 actix-multipart = "0.6.1"
-strum = { version = "0.26.2", features = ["derive"] }
+actix-web-actors = "4.3.0"
+actix-web = "4.6.0"
