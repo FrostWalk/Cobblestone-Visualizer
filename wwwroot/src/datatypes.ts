@@ -61,12 +61,6 @@ export interface LibEvent {
     payload?: any;
 }
 
-export interface EnvironmentalConditions {
-    time_progression_minutes: number;
-    time_of_day: TimeOfDay;
-    weather_forecast: WeatherType[];
-}
-
 export interface TimeOfDay {
     hour: number;
     minute: number;

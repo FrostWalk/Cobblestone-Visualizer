@@ -64,7 +64,6 @@ export function resizeCanvas(): void {
     TILE_SIZE = Math.floor(CANVAS_SIDE / getWorldSize());
     CANVAS_SIDE = TILE_SIZE * getWorldSize();
 
-
     if (canvas) {
         canvas.width = CANVAS_SIDE;
         canvas.height = CANVAS_SIDE;
@@ -72,6 +71,8 @@ export function resizeCanvas(): void {
 }
 
 export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoordinate) {
+    resizeCanvas();
+
     setSize(world_map.length.toString());
 
     const canvas = document.getElementById('draw-area') as HTMLCanvasElement;

@@ -1,5 +1,3 @@
-import {Backpack} from "./datatypes";
-
 function stoneShow(show: boolean): void {
     const elem = document.getElementById("stone");
     if (elem) {
