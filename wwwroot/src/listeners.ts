@@ -128,7 +128,7 @@ export function addListeners(): void {
             try {
                 // Show the loading bar
                 const loadingBarContainer = document.getElementById('loading')!;
-                loadingBarContainer.style.display = 'block';
+                loadingBarContainer.style.display = 'flex';
 
                 if (uploadWorldInput.files && uploadWorldInput.files.length > 0) {
                     const file = uploadWorldInput.files[0];

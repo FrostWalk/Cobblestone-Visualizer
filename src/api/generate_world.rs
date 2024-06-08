@@ -1,9 +1,7 @@
 use actix_web::{HttpResponse, post, web};
 use actix_web::http::header::ContentType;
 use log::info;
-use robot_for_visualizer::RobotForVisualizer;
-use roomba_robot_test::robot::Roomba;
-use serde::{Deserialize};
+use serde::Deserialize;
 
 use crate::api::CommonResponse;
 use crate::api::get_available_robots::AvailableRobots;
@@ -48,25 +46,18 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
         }
     };
 
-    
-    match AvailableRobots::from(req.robot) {
-        AvailableRobots::Roomba => {
-            match Roomba::get_runner(&mut generator) {
-                Ok(r) => {
-                    set_robot(r);
-                }
-                Err(e) => {
-                    response = CommonResponse {
-                        success: false,
-                        msg: Some(format!("{:?}", e)),
-                    }
-                }
-            }
+    let runner = match AvailableRobots::get_runner(req.robot, &mut generator) {
+        Ok(r) => { r }
+        Err(e) => {
+            let response = serde_json::to_string(&e).unwrap();
+            return HttpResponse::Ok()
+                .content_type(ContentType::json())
+                .body(response);
         }
-        AvailableRobots::Bobot => {}
-        AvailableRobots::ScrapBot => {}
-    }
+    };
 
+    set_robot(runner);
+    
     info!("World generation completed");
 
     let response = serde_json::to_string(&response).unwrap();

@@ -6,8 +6,6 @@ use actix_multipart::Multipart;
 use actix_web::{Error, HttpResponse, post};
 use actix_web::http::header::ContentType;
 use futures_util::{StreamExt, TryStreamExt};
-use robot_for_visualizer::RobotForVisualizer;
-use roomba_robot_test::robot::Roomba;
 
 use crate::api::CommonResponse;
 use crate::api::get_available_robots::AvailableRobots;
@@ -20,14 +18,11 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse,
     let mut robot_name = String::new();
     let mut file_name: String = String::from("");
 
-    // Iterate over multipart stream
     while let Some(item) = payload.try_next().await? {
         let mut field = item;
 
-        // Handle regular form fields
         let field_name = field.name();
         if field_name == "robot" {
-            // Extract the robot name from the form field
             let mut bytes = Vec::new();
             while let Some(chunk) = field.next().await {
                 let data = chunk?;
@@ -37,7 +32,6 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse,
         }
 
         let content_disposition = field.content_disposition();
-        // Estraiamo il filename se presente
         if let Some(filename) = content_disposition.get_filename() {
             let path = Path::new(CobblestoneConfig::static_files_path().as_str())
                 .join(CobblestoneConfig::file_dir().as_str()).join(filename);
@@ -70,23 +64,18 @@ pub(crate) async fn upload_world(mut payload: Multipart) -> Result<HttpResponse,
         }
     };
 
-    match AvailableRobots::from(robot_name) {
-        AvailableRobots::Roomba => {
-            match Roomba::get_runner(&mut generator) {
-                Ok(r) => {
-                    set_robot(r);
-                }
-                Err(e) => {
-                    response = CommonResponse {
-                        success: false,
-                        msg: Some(format!("{:?}", e)),
-                    }
-                }
-            }
+    let runner = match AvailableRobots::get_runner(robot_name, &mut generator) {
+        Ok(r) => { r }
+        Err(e) => {
+            let response = serde_json::to_string(&e).unwrap();
+            return Ok(HttpResponse::InternalServerError()
+                .content_type(ContentType::json())
+                .body(response));
         }
-        AvailableRobots::Bobot => {}
-        AvailableRobots::ScrapBot => {}
-    }
+    };
+
+    set_robot(runner);
+
 
     Ok(HttpResponse::Ok().json(response))
 }

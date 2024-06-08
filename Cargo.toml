@@ -36,4 +36,4 @@ actix-web-actors = "4.3.0"
 actix-web = "4.6.0"
 
 # Robots
-#robotic_ai_prypiat = { git = "ssh://git@github.com/D35P4C1T0/Robotic-AI.git", branch = "reborn" }
+robotic_ai_prypiat = { git = "ssh://git@github.com/D35P4C1T0/Robotic-AI.git", branch = "lib" }

@@ -1,8 +1,15 @@
 use actix_web::{get, HttpResponse, Responder};
 use actix_web::http::header::ContentType;
 use log::warn;
+use robot_for_visualizer::RobotForVisualizer;
+use robotic_ai_prypiat::bot::Scrapbot;
+use robotics_lib::runner::Runner;
+use robotics_lib::world::world_generator::Generator;
+use roomba_robot_test::robot::Roomba;
 use serde::Serialize;
 use strum::{EnumIter, EnumString, IntoEnumIterator};
+
+use crate::api::CommonResponse;
 
 #[derive(Serialize)]
 struct RobotsResponse {
@@ -35,5 +42,44 @@ impl From<String> for AvailableRobots {
             warn!("Invalid robot name: {}", s);
             unreachable!();
         })
+    }
+}
+
+impl AvailableRobots {
+    pub(crate) fn get_runner(s: String, generator: &mut impl Generator) -> Result<Runner, CommonResponse> {
+        match AvailableRobots::from(s) {
+            AvailableRobots::Roomba => {
+                match Roomba::get_runner(generator) {
+                    Ok(r) => {
+                        Ok(r)
+                    }
+                    Err(e) => {
+                        Err(CommonResponse {
+                            success: false,
+                            msg: Some(format!("{:?}", e)),
+                        })
+                    }
+                }
+            }
+            AvailableRobots::Bobot => {
+                Err(CommonResponse {
+                    success: false,
+                    msg: Some(String::from("Robot not available")),
+                })
+            }
+            AvailableRobots::ScrapBot => {
+                match Scrapbot::get_runner(generator) {
+                    Ok(r) => {
+                        Ok(r)
+                    }
+                    Err(e) => {
+                        Err(CommonResponse {
+                            success: false,
+                            msg: Some(format!("{:?}", e)),
+                        })
+                    }
+                }
+            }
+        }
     }
 }
