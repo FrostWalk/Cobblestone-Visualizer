@@ -22,6 +22,15 @@ export function setRobot(value: string): void {
     }
 }
 
+export function getRobot(): string {
+    const elem = document.getElementById("w-robot") as HTMLSpanElement;
+    if (elem) {
+        return elem.textContent as string;
+    } else {
+        return "";
+    }
+}
+
 export function IsInPause(): boolean {
     return isInPause;
 }

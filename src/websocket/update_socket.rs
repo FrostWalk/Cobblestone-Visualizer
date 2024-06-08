@@ -4,7 +4,7 @@ use actix_web_actors::ws::{self, Message, ProtocolError};
 use futures_util::stream::StreamExt;
 use tokio_stream::wrappers::IntervalStream;
 
-use crate::robots::runner::get_wait;
+use crate::robots::runner_logic::get_wait;
 use crate::websocket::handlers::updates::{create_update, updates_handler};
 
 pub(crate) struct UpdateSocket {}

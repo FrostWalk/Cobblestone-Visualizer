@@ -147,7 +147,6 @@ export function addListeners(): void {
                     }
 
                     start();
-                    setSize('?');
                     setSeed('?');
                     setRobot(robot);
 

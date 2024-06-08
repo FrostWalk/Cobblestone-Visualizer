@@ -73,6 +73,12 @@ pub(crate) fn set_wait(wait: u64) {
     WAIT.store(wait, SeqCst);
 }
 
-pub(crate) fn get_robot_data() -> RobotData {
-    RobotData::from(RUNNER.read().expect(LOCK_ERROR).option_runner.as_ref().expect("trying to read data from a None robot").get_robot())
+pub(crate) fn get_robot_data() -> Option<RobotData> {
+    return match RUNNER.read().expect(LOCK_ERROR).option_runner.as_ref() {
+        None => {
+            warn!("Tried to read data from a None robot");
+            None
+        }
+        Some(r) => { Some(RobotData::from(r.get_robot())) }
+    };
 }

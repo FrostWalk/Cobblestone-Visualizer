@@ -1,4 +1,5 @@
 import {ContentType, RobotCoordinate, Tile, TileType} from "./datatypes";
+import {setSize} from "./variables";
 
 const BIN_IMAGE = new Image();
 BIN_IMAGE.src = 'dist/tiles/bin.webp';
@@ -62,10 +63,11 @@ export function resizeCanvas(): void {
     }
 }
 
-export function drawMap(world_map: (Tile | null)[][], coordinate: RobotCoordinate) {
+export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoordinate) {
     const canvas = document.getElementById('draw-area') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
+    setSize(world_map.length.toString());
 
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -75,58 +77,10 @@ export function drawMap(world_map: (Tile | null)[][], coordinate: RobotCoordinat
     for (let row = 0; row < world_map.length; row++) {
         for (let col = 0; col < world_map.length; col++) {
             const tile = world_map[row][col];
-            console.log(tile);
             if (tile) {
                 const x = col * TILE_SIZE;
                 const y = row * TILE_SIZE;
-                if (typeof tile.content !== 'string') {
-                    const contentType = Object.keys(tile.content)[0] as keyof typeof ContentType;
-                    switch (contentType) {
-                        case ContentType.Rock:
-                            ctx.drawImage(COBBLESTONE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Tree:
-                            ctx.drawImage(TREE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Garbage:
-                            ctx.drawImage(TRASH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Fire:
-                            ctx.drawImage(FIRE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Coin:
-                            ctx.drawImage(COIN_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Bin:
-                            ctx.drawImage(BIN_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Crate:
-                            ctx.drawImage(CRATE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Bank:
-                            ctx.drawImage(CHEST_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Market:
-                            ctx.drawImage(MARKET_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Fish:
-                            ctx.drawImage(FISH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Bush:
-                            ctx.drawImage(BUSH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Scarecrow:
-                            ctx.drawImage(SCARECROW, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.JollyBlock:
-                            ctx.drawImage(LUCKY_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
-                            break;
-                        case ContentType.Building:
-                            break;
-                        case ContentType.Water:
-                            break;
-                    }
-                }
+
                 switch (tile.tile_type) {
                     case TileType.DeepWater:
                         ctx.drawImage(DEEP_WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
@@ -163,6 +117,53 @@ export function drawMap(world_map: (Tile | null)[][], coordinate: RobotCoordinat
                         break;
                 }
 
+                switch (tile.content) {
+                    case ContentType.Rock:
+                        ctx.drawImage(COBBLESTONE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Tree:
+                        ctx.drawImage(TREE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Garbage:
+                        ctx.drawImage(TRASH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Fire:
+                        ctx.drawImage(FIRE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Coin:
+                        ctx.drawImage(COIN_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Bin:
+                        ctx.drawImage(BIN_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Crate:
+                        ctx.drawImage(CRATE_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Bank:
+                        ctx.drawImage(CHEST_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Market:
+                        ctx.drawImage(MARKET_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Fish:
+                        ctx.drawImage(FISH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Bush:
+                        ctx.drawImage(BUSH_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Scarecrow:
+                        ctx.drawImage(SCARECROW, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.JollyBlock:
+                        ctx.drawImage(LUCKY_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
+                        break;
+                    case ContentType.Building:
+                        break;
+                    case ContentType.Water:
+                        break;
+                    case ContentType.None:
+                        break;
+                }
             }
         }
     }

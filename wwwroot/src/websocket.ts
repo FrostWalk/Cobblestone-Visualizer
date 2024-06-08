@@ -1,6 +1,6 @@
 import {Command, Request} from './request';
-import {BASE_URL} from "./variables";
-import {LibEvent, Update} from "./datatypes";
+import {BASE_URL, getRobot} from "./variables";
+import {LibEventType, Update} from "./datatypes";
 import {setBackpack, setCoordinates, setEnergy, setTime, setWeather} from "./statistics";
 import {drawMap} from "./draw";
 
@@ -21,28 +21,27 @@ export function sendCommand(command: Command): void {
 export function initUpdateSockets() {
     updatesSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/updates`);
 
-    commandSocket.addEventListener('close', () => {
+    commandSocket.onclose = () => {
         console.log('Disconnected from command socket');
-    });
+    };
 
-    commandSocket.addEventListener('open', () => {
-        console.log('Connected to command socket');
-    });
+    commandSocket.onerror = (error) => {
+        alert(`WebSocket error:${error}`);
+    };
 
-    commandSocket.addEventListener('error', (error) => {
-        alert(`Command socket error: ${error}`)
-    });
+    updatesSocket.onopen = () => {
+        console.log('connected to updates socket ');
+    };
 
-    updatesSocket.addEventListener('open', () => {
-        console.log('Connected to update socket');
-    });
-
-    updatesSocket.addEventListener('close', (event) => {
+    updatesSocket.onclose = (event) => {
         console.log('Disconnected from update socket', event);
-    });
+    };
 
-    updatesSocket.addEventListener('message', (event) => {
+    updatesSocket.onmessage = (event) => {
         try {
+            if (event.data == 'ping') {
+                return;
+            }
             const update: Update = JSON.parse(event.data);
 
             setCoordinates(update.robot_data.coordinate);
@@ -50,23 +49,18 @@ export function initUpdateSockets() {
             setBackpack(update.robot_data.backpack);
             setTime(update.environment);
             setWeather(update.environment);
-
             drawMap(update.map, update.robot_data.coordinate);
 
-            if (update.event == LibEvent.Terminated) {
-                alert("Robot terminated is job, reload the page to start over");
+            if (update.event && update.event.type == LibEventType.Terminated) {
+                alert(`${getRobot()} terminated his job, reload the page to start over`);
                 sendCommand(Command.Stop);
                 closeSockets();
             }
         } catch (error) {
+            console.error(event.data);
             alert(`Error deserializing update:${error}`);
         }
-    });
-
-    updatesSocket.addEventListener('error', (error) => {
-        alert(`Update socket error: ${error.type}`);
-        closeSockets();
-    });
+    }
 }
 
 export function closeSockets() {

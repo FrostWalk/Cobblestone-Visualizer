@@ -12,7 +12,7 @@ use roomba_robot_test::robot::Roomba;
 use crate::api::CommonResponse;
 use crate::api::get_available_robots::AvailableRobots;
 use crate::config::CobblestoneConfig;
-use crate::robots::runner::set_robot;
+use crate::robots::runner_logic::set_robot;
 use crate::world_gen_helper::load_world;
 
 #[post("/uploadWorld")]

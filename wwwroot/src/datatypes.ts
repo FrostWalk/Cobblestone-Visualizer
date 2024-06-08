@@ -7,10 +7,12 @@ export enum WeatherType {
 }
 
 export enum DayTime {
-    Morning = 'Morning', Afternoon = 'Afternoon', Night = 'Night'
+    Morning = 'Morning',
+    Afternoon = 'Afternoon',
+    Night = 'Night'
 }
 
-export enum LibEvent {
+export enum LibEventType {
     Ready = 'Ready',
     Terminated = 'Terminated',
 }
@@ -45,6 +47,7 @@ export enum ContentType {
     Bush = 'Bush',
     JollyBlock = 'JollyBlock',
     Scarecrow = 'Scarecrow',
+    None = 'None'
 }
 
 export interface Environment {
@@ -53,15 +56,29 @@ export interface Environment {
     day_time: DayTime;
 }
 
-export interface Tile {
-    tile_type: TileType;
-    content: Content;
-    elevation: number;
+export interface LibEvent {
+    type: LibEventType;
+    payload?: any;
 }
 
-export interface Content {
-    type: ContentType;
-    quantity?: number;
+export interface EnvironmentalConditions {
+    time_progression_minutes: number;
+    time_of_day: TimeOfDay;
+    weather_forecast: WeatherType[];
+}
+
+export interface TimeOfDay {
+    hour: number;
+    minute: number;
+}
+
+export interface Tile {
+    tile_type: TileType;
+    content: ContentType;
+}
+export interface RobotCoordinate {
+    row: number;
+    col: number;
 }
 
 export interface RobotData {
@@ -70,16 +87,11 @@ export interface RobotData {
     backpack: Backpack;
 }
 
-export interface RobotCoordinate {
-    row: number;
-    col: number;
-}
-
 export interface Update {
     event: LibEvent | null;
     robot_data: RobotData;
     environment: Environment;
-    map: (Tile | null)[][];
+    map: (Tile | undefined)[][];
 }
 
 export interface Backpack {

@@ -3,7 +3,7 @@ use bytestring::ByteString;
 use common_messages::messages::{Command, Request};
 use log::error;
 
-use crate::robots::runner::{pause_robot, resume_robot, run_robot, stop_robot};
+use crate::robots::runner_logic::{pause_robot, resume_robot, run_robot, stop_robot};
 use crate::websocket::commands_socket::CommandsSocket;
 use crate::websocket::errors::CobblestoneError;
 
