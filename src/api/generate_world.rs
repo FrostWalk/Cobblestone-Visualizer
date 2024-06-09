@@ -1,6 +1,8 @@
 use actix_web::{HttpResponse, post, web};
 use actix_web::http::header::ContentType;
 use log::info;
+use oxagworldgenerator::world_generator::content_options::OxAgContentOptions;
+use robotics_lib::world::tile::Content;
 use serde::Deserialize;
 
 use crate::api::CommonResponse;
@@ -32,7 +34,43 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
     };
 
     set_wait(req.wait);
-    let mut generator = match get_generator(req.world_size, req.seed) {
+
+    let content = match AvailableRobots::from(req.robot.clone()) {
+        AvailableRobots::Roomba => {
+            None
+        }
+        AvailableRobots::Bobot => { None }
+        AvailableRobots::ScrapBot => {
+            Some(vec![
+                (
+                    Content::Garbage(1),
+                    OxAgContentOptions {
+                        in_batches: true,
+                        is_present: true,
+                        min_spawn_number: 4,
+                        max_radius: 2,
+                        with_max_spawn_number: true,
+                        max_spawn_number: 20,
+                        percentage: 1f64,
+                    },
+                ),
+                (
+                    Content::Bin(0..1),
+                    OxAgContentOptions {
+                        in_batches: false,
+                        is_present: true,
+                        min_spawn_number: 3,
+                        max_radius: 0,
+                        with_max_spawn_number: true,
+                        max_spawn_number: 3,
+                        percentage: 1f64,
+                    },
+                ),
+            ])
+        }
+    };
+
+    let mut generator = match get_generator(req.world_size, req.seed, content) {
         Ok(g) => { g }
         Err(e) => {
             response = CommonResponse {
@@ -57,7 +95,7 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
     };
 
     set_robot(runner);
-    
+
     info!("World generation completed");
 
     let response = serde_json::to_string(&response).unwrap();

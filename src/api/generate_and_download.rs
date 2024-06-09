@@ -19,7 +19,7 @@ async fn generate_and_download(data: web::Json<WorldData>) -> HttpResponse {
 
     info!("Generating World for download: {}, seed: {}",req.world_size, req.seed);
 
-    match generate_and_save(req.world_size, req.seed) {
+    match generate_and_save(req.world_size, req.seed, None) {
         Ok(_) => {}
         Err(e) => {
             let response = CommonResponse {

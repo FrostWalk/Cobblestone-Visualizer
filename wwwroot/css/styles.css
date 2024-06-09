@@ -302,7 +302,7 @@ input[type=number] {
 
 .draw-area {
     flex-grow: 1;
-    margin: 10px auto;
+    margin: 1px auto;
     border: 2px solid #000;
     background-color: #f0f0f0;
 }

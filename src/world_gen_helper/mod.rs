@@ -3,29 +3,47 @@ use std::io::{Read, Write};
 use std::path::Path;
 
 use oxagworldgenerator::utils::generate_random_seed;
+use oxagworldgenerator::world_generator::content_options::OxAgContentOptions;
 use oxagworldgenerator::world_generator::OxAgWorldGenerator;
 use oxagworldgenerator::world_generator::presets::content_presets::OxAgContentPresets;
 use oxagworldgenerator::world_generator::presets::environmental_presets::OxAgEnvironmentalConditionPresets;
 use oxagworldgenerator::world_generator::presets::tile_type_presets::OxAgTileTypePresets;
 use oxagworldgenerator::world_generator::world_generator_builder::OxAgWorldGeneratorBuilder;
+use robotics_lib::world::tile::Content;
 use zstd::stream::{copy_decode, copy_encode};
 
 use crate::config::CobblestoneConfig;
 
 const TEMP_JSON_NAME: &str = "world.json";
 
-pub(crate) fn get_generator(size: usize, seed: u64) -> Result<OxAgWorldGenerator, String> {
-    OxAgWorldGeneratorBuilder::new()
-        .set_seed(seed)
-        .set_size(size)
-        .set_tile_type_options_from_preset(OxAgTileTypePresets::Default)
-        .set_content_options_from_preset(OxAgContentPresets::Default)
-        .set_environmental_conditions_from_preset(OxAgEnvironmentalConditionPresets::Mixed)
-        .build().map_err(|e| format!("{:?}", e))
+pub(crate) fn get_generator(size: usize, seed: u64, content: Option<Vec<(Content, OxAgContentOptions)>>) -> Result<OxAgWorldGenerator, String> {
+    match content {
+        None => {
+            OxAgWorldGeneratorBuilder::new()
+                .set_seed(seed)
+                .set_size(size)
+                .set_tile_type_options_from_preset(OxAgTileTypePresets::Default)
+                .set_content_options_from_preset(OxAgContentPresets::Default)
+                .set_environmental_conditions_from_preset(OxAgEnvironmentalConditionPresets::Mixed)
+                .build().map_err(|e| format!("{:?}", e))
+        }
+        Some(c) => {
+            OxAgWorldGeneratorBuilder::new()
+                .set_content_options(c)
+                .unwrap()
+                .set_size(size)
+                .set_seed(seed)
+                .set_tile_type_options_from_preset(OxAgTileTypePresets::Default)
+                .set_environmental_conditions_from_preset(OxAgEnvironmentalConditionPresets::Mixed)
+                .build()
+                .map_err(|e| format!("{:?}", e))
+        }
+    }
 }
 
-pub(crate) fn generate_and_save(size: usize, seed: u64) -> Result<(), String> {
-    let mut world_generator = match get_generator(size, seed) {
+
+pub(crate) fn generate_and_save(size: usize, seed: u64, content: Option<Vec<(Content, OxAgContentOptions)>>) -> Result<(), String> {
+    let mut world_generator = match get_generator(size, seed, content) {
         Ok(w) => { w }
         Err(e) => { return Err(e); }
     };
