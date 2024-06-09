@@ -8,7 +8,9 @@ use robotics_lib::world::world_generator::Generator;
 use roomba_robot_test::robot::Roomba;
 use serde::Serialize;
 use strum::{EnumIter, EnumString, IntoEnumIterator};
+
 use crate::api::CommonResponse;
+use crate::config::CobblestoneConfig;
 
 #[derive(Serialize)]
 struct RobotsResponse {
@@ -46,6 +48,8 @@ impl From<String> for AvailableRobots {
 
 impl AvailableRobots {
     pub(crate) fn get_runner(s: String, generator: &mut impl Generator) -> Result<Runner, CommonResponse> {
+        Scrapbot::set_audio_path(CobblestoneConfig::scrapbot_audio_dir());
+
         match AvailableRobots::from(s) {
             AvailableRobots::Roomba => {
                 match Roomba::get_runner(generator) {

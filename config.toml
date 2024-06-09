@@ -1,5 +1,7 @@
 address = "0.0.0.0"
 port = 8080
-static_files_path = "./wwwroot"
+static_files_path = "wwwroot"
 index = "index.html"
 file_dir = "worlds"
+scrapbot_audio_dir = "audio/scrap"
+bobot_audio_dir = "audio/bobot"

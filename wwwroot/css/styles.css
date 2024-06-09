@@ -282,8 +282,8 @@ input[type=number] {
 
 .sidebar-left, .sidebar-right {
     position: fixed;
-    top: 0;
-    bottom: 0;
+    top: 1px;
+    bottom: 1px;
     width: 200px;
     padding: 10px;
     box-sizing: border-box;
@@ -293,11 +293,11 @@ input[type=number] {
 }
 
 .sidebar-left {
-    left: 0;
+    left: 1px;
 }
 
 .sidebar-right {
-    right: 0;
+    right: 1px;
 }
 
 .draw-area {
