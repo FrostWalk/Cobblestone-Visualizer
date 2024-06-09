@@ -21,9 +21,7 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
 
     let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
     let map = get_world_map().deref().clone();
-
     let events = get_all_events_from_queue().iter().map(|e| LibEvent::from(e.clone())).collect();
-
     let response = Response::new(events, data.unwrap(), env, map).to_json().unwrap();
 
     Ok(Text(ByteString::from(response)))

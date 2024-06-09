@@ -254,10 +254,11 @@ export function addListeners(): void {
         toggleLogButton.addEventListener('click', function () {
             if (logBox.style.display === 'none' || logBox.style.display === '') {
                 logBox.style.display = 'block';
-                title.textContent = 'Show Logs';
-            } else {
-                logBox.style.display = 'none';
                 title.textContent = 'Hide Logs';
+
+            } else {
+                title.textContent = 'Show Logs';
+                logBox.style.display = 'none';
             }
         });
     });
