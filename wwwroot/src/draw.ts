@@ -173,6 +173,6 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
     }
     ctx.drawImage(ROBOT_IMAGE, (coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
     ctx.strokeStyle = '#f00';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.strokeRect((coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 }

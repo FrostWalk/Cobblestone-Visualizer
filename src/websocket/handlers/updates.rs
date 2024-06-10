@@ -6,7 +6,7 @@ use actix_web_actors::ws::Message::{Nop, Text};
 use bytestring::ByteString;
 use common_messages::events::LibEvent;
 use common_messages::messages::{Environment, Response};
-use log::warn;
+use log::{warn};
 use robot_for_visualizer::{get_all_events_from_queue, get_day_periods, get_time, get_weather_condition, get_world_map};
 
 use crate::robots::runner_logic::get_robot_data;
@@ -18,10 +18,9 @@ pub(crate) fn create_update() -> Result<Message, ProtocolError> {
     if data.is_none() {
         return Ok(Nop);
     }
-
     let env = Environment::new(get_time(), get_weather_condition(), get_day_periods());
     let map = get_world_map().deref().clone();
-    let events = get_all_events_from_queue().iter().map(|e| LibEvent::from(e.clone())).collect();
+    let events: Vec<LibEvent> = get_all_events_from_queue().iter().map(|e| LibEvent::from(e.clone())).collect();
     let response = Response::new(events, data.unwrap(), env, map).to_json().unwrap();
 
     Ok(Text(ByteString::from(response)))

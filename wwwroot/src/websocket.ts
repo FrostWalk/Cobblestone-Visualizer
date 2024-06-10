@@ -49,7 +49,7 @@ export function initUpdateSockets() {
             drawMap(update.map, update.robot_data.coordinate);
             addEventEntry(update.event);
 
-            if (update.event[update.event.length - 1] === 'Terminated') {
+            if (update.event.includes('Terminated')) {
                 alert(`${getRobot()} terminated his job, reload the page to start over`);
                 sendCommand(Command.Stop);
                 closeSockets();
