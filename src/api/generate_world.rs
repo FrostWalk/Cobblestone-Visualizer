@@ -59,10 +59,10 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
                     OxAgContentOptions {
                         in_batches: false,
                         is_present: true,
-                        min_spawn_number: 3,
+                        min_spawn_number: 6,
                         max_radius: 0,
                         with_max_spawn_number: true,
-                        max_spawn_number: 3,
+                        max_spawn_number: 7,
                         percentage: 1f64,
                     },
                 ),

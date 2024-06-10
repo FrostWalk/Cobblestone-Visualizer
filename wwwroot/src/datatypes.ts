@@ -51,15 +51,11 @@ export interface Environment {
     day_time: DayTime;
 }
 
-export interface TimeOfDay {
-    hour: number;
-    minute: number;
-}
-
 export interface Tile {
     tile_type: TileType;
     content: ContentType;
 }
+
 export interface RobotCoordinate {
     row: number;
     col: number;
@@ -69,13 +65,6 @@ export interface RobotData {
     energy_level: number;
     coordinate: RobotCoordinate;
     backpack: Backpack;
-}
-
-export interface Update {
-    event: string[];
-    robot_data: RobotData;
-    environment: Environment;
-    map: (Tile | undefined)[][];
 }
 
 export interface Backpack {
@@ -95,4 +84,11 @@ export interface Backpack {
     Market: number;
     Water: number;
     Fire: number;
+}
+
+export interface Update {
+    event: string;
+    robot_data: RobotData;
+    environment: Environment;
+    map: (Tile | undefined)[][];
 }

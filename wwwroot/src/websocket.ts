@@ -1,7 +1,7 @@
 import {Command, Request} from './request';
 import {BASE_URL, getRobot} from "./variables";
 import {Update} from "./datatypes";
-import {addEventEntry, setBackpack, setCoordinates, setEnergy, setTime, setWeather} from "./statistics";
+import {addEventsEntry, setBackpack, setCoordinates, setEnergy, setTime, setWeather} from "./statistics";
 import {drawMap} from "./draw";
 
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
@@ -47,12 +47,13 @@ export function initUpdateSockets() {
             setTime(update.environment);
             setWeather(update.environment);
             drawMap(update.map, update.robot_data.coordinate);
-            addEventEntry(update.event);
+            addEventsEntry(update.event);
 
-            if (update.event.includes('Terminated')) {
-                alert(`${getRobot()} terminated his job, reload the page to start over`);
+
+            if (update.event === 'Terminated') {
                 sendCommand(Command.Stop);
                 closeSockets();
+                alert(`${getRobot()} terminated his job, reload the page to start over`);
             }
         } catch (error) {
             console.error(event.data);

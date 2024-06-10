@@ -37,6 +37,7 @@ export function setCoordinates(value: RobotCoordinate): void {
 }
 
 export function setBackpack(backpack: Backpack): void {
+    console.log(backpack);
     setStoneNumber(backpack.Rock);
     setWoodNumber(backpack.Tree);
     setTrashNumber(backpack.Garbage);
@@ -91,18 +92,16 @@ export function setWeather(environment: Environment): void {
     }
 }
 
-export function addEventEntry(event: string[]): void {
+export function addEventsEntry(event: string): void {
     const logBox = document.getElementById('log-box') as HTMLDivElement;
 
-    for (let e of event) {
-        while (logBox.children.length > 11) {
-            logBox.removeChild(logBox.firstChild as Node);
-        }
-
-        const logEntry = document.createElement('div');
-        logEntry.className = 'log-entry';
-        logEntry.textContent = e;
-        logBox.appendChild(logEntry);
+    while (logBox.children.length > 11) {
+        logBox.removeChild(logBox.firstChild as Node);
     }
+
+    const logEntry = document.createElement('div');
+    logEntry.className = 'log-entry';
+    logEntry.textContent = event;
+    logBox.appendChild(logEntry);
     logBox.scrollTop = logBox.scrollHeight;
 }
