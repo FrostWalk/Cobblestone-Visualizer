@@ -103,7 +103,6 @@ export function addEventEntry(event: string[]): void {
         logEntry.className = 'log-entry';
         logEntry.textContent = e;
         logBox.appendChild(logEntry);
-
-        logBox.scrollTop = logBox.scrollHeight;
     }
+    logBox.scrollTop = logBox.scrollHeight;
 }

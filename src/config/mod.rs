@@ -12,7 +12,6 @@ pub(crate) struct CobblestoneConfig {
     index: String,
     file_dir: String,
     scrapbot_audio_dir: String,
-    bobot_audio_dir: String,
 }
 
 lazy_static! {
@@ -43,5 +42,4 @@ impl CobblestoneConfig {
     }
     pub(crate) fn file_dir() -> String { CONFIG.read().expect("Unable to lock CONFIG").file_dir.clone() }
     pub(crate) fn scrapbot_audio_dir() -> String { CONFIG.read().expect("Unable to lock CONFIG").scrapbot_audio_dir.clone() }
-    pub(crate) fn bobot_audio_dir() -> String { CONFIG.read().expect("Unable to lock CONFIG").bobot_audio_dir.clone() }
 }

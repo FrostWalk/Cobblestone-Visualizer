@@ -8,8 +8,8 @@ use actix_web::http::header::ContentType;
 use futures_util::{StreamExt, TryStreamExt};
 
 use crate::api::CommonResponse;
-use crate::api::get_available_robots::AvailableRobots;
 use crate::config::CobblestoneConfig;
+use crate::robots::available::AvailableRobots;
 use crate::robots::runner_logic::set_robot;
 use crate::world_gen_helper::load_world;
 

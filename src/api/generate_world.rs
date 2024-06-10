@@ -6,7 +6,7 @@ use robotics_lib::world::tile::Content;
 use serde::Deserialize;
 
 use crate::api::CommonResponse;
-use crate::api::get_available_robots::AvailableRobots;
+use crate::robots::available::AvailableRobots;
 use crate::robots::runner_logic::{set_robot, set_wait};
 use crate::world_gen_helper::get_generator;
 

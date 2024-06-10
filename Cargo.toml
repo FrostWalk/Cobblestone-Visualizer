@@ -37,3 +37,4 @@ robot-for-visualizer = { git = "ssh://git@github.com/RustyPripyat/robot-for-visu
 # Robots
 roomba_robot_test = { git = "ssh://git@github.com/RustyPripyat/roomba_robot_test.git" }
 robotic_ai_prypiat = { git = "ssh://git@github.com/D35P4C1T0/Robotic-AI.git" }
+advanced-robot = { git = "ssh://git@github.com/Lorysmutti/Advanced_robot.git", branch = "External_Pathfinder" }

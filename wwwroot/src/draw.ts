@@ -87,7 +87,6 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
             if (tile) {
                 const x = col * TILE_SIZE;
                 const y = row * TILE_SIZE;
-
                 switch (tile.tile_type) {
                     case TileType.DeepWater:
                         ctx.drawImage(DEEP_WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
@@ -123,7 +122,6 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
                         ctx.drawImage(WALL_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
                         break;
                 }
-
                 switch (tile.content) {
                     case ContentType.Rock:
                         ctx.drawImage(COBBLESTONE, x, y, TILE_SIZE, TILE_SIZE);
@@ -165,14 +163,16 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
                         ctx.drawImage(LUCKY_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
                         break;
                     case ContentType.Building:
-                        break;
                     case ContentType.Water:
-                        break;
                     case ContentType.None:
                         break;
                 }
+
             }
         }
     }
     ctx.drawImage(ROBOT_IMAGE, (coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+    ctx.strokeStyle = '#f00';
+    ctx.lineWidth = 2;
+    ctx.strokeRect((coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 }
