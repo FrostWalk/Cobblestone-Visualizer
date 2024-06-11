@@ -85,8 +85,8 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
         for (let col = 0; col < world_map.length; col++) {
             const tile = world_map[row][col];
             if (tile) {
-                const x = col * TILE_SIZE;
-                const y = row * TILE_SIZE;
+                const y = col * TILE_SIZE;
+                const x = row * TILE_SIZE;
                 switch (tile.tile_type) {
                     case TileType.DeepWater:
                         ctx.drawImage(DEEP_WATER_IMAGE, x, y, TILE_SIZE, TILE_SIZE);
