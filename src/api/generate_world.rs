@@ -39,7 +39,34 @@ async fn generate_world(data: web::Json<WorldData>) -> HttpResponse {
         AvailableRobots::Roomba => {
             None
         }
-        AvailableRobots::Bobot => { None }
+        AvailableRobots::Bobot => {
+            Some(vec![
+                (
+                    Content::Fire,
+                    OxAgContentOptions {
+                        in_batches: true,
+                        is_present: true,
+                        min_spawn_number: 15,
+                        max_radius: 6,
+                        with_max_spawn_number: true,
+                        max_spawn_number: 20,
+                        percentage: 1f64,
+                    },
+                ),
+                (
+                    Content::Water(1),
+                    OxAgContentOptions {
+                        in_batches: false,
+                        is_present: true,
+                        min_spawn_number: 10,
+                        max_radius: 6,
+                        with_max_spawn_number: true,
+                        max_spawn_number: 30,
+                        percentage: 1f64,
+                    },
+                ),
+            ])
+        }
         AvailableRobots::ScrapBot => {
             Some(vec![
                 (

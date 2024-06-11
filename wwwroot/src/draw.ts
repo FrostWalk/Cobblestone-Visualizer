@@ -72,15 +72,12 @@ export function resizeCanvas(): void {
 
 export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoordinate) {
     resizeCanvas();
-
     setSize(world_map.length.toString());
-
     const canvas = document.getElementById('draw-area') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     for (let row = 0; row < world_map.length; row++) {
         for (let col = 0; col < world_map.length; col++) {
             const tile = world_map[row][col];

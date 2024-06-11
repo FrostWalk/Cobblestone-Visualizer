@@ -28,19 +28,19 @@
             </div>
             <div class="form-group">
                 <label for="wait">Speed:</label>
-                <input id="wait" min="50" name="wait" required type="number" value="100">
+                <input id="wait" max="5000" min="50" name="wait" required type="number" value="1000">
             </div>
             <div class="form-group">
                 <label for="robot">Robot:</label>
                 <select id="robot" name="robot" required></select>
             </div>
             <div class="double">
-                <button class="mc-button" id="show-advanced" type="button"><span id="show-advanced-title" class="title">Show advanced</span>
+                <button class="mc-button" id="show-advanced" type="button"><span class="title" id="show-advanced-title">Show advanced</span>
                 </button>
                 <button class="mc-button" id="start-button" type="submit"><span class="title" id="start-button-title">Start</span>
                 </button>
             </div>
-            <div id="advanced-options" class="advanced-options">
+            <div class="advanced-options" id="advanced-options">
                 <div class="form-group">
                     <label for="upload-world">Upload World:</label>
                     <input accept=".zst" id="upload-world" name="upload-world" type="file">
@@ -60,7 +60,7 @@
         <h3 class="centered">Commands</h3>
     </div>
     <div class="spaced-div">
-        <button class="mc-button" id="pause" type="button"><span id="pause-title" class="title">Pause</span></button>
+        <button class="mc-button" id="pause" type="button"><span class="title" id="pause-title">Pause</span></button>
     </div>
     <div class="spaced-div">
         <button class="mc-button" id="reset" type="button"><span class="title">Reset</span></button>
@@ -81,8 +81,9 @@
         <span id="w-robot"></span>
     </div>
     <div class="log-container">
-        <button class="mc-button" id="toggle-log" type="button"><span id="log-title" class="title">Show Logs</span></button>
-        <div id="log-box" class="log-box">
+        <button class="mc-button" id="toggle-log" type="button"><span class="title" id="log-title">Show Logs</span>
+        </button>
+        <div class="log-box" id="log-box">
         </div>
     </div>
 </div>

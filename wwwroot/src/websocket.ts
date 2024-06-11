@@ -6,6 +6,7 @@ import {drawMap} from "./draw";
 
 const commandSocket = new WebSocket(`${BASE_URL.replace('http', 'ws')}/commands`);
 let updatesSocket: WebSocket;
+let lastUpdate: boolean = false;
 
 export function sendCommand(command: Command): void {
     const request: Request = {
@@ -49,12 +50,14 @@ export function initUpdateSockets() {
             drawMap(update.map, update.robot_data.coordinate);
             addEventsEntry(update.event);
 
-
-            if (update.event === 'Terminated') {
+            if (lastUpdate) {
                 sendCommand(Command.Stop);
                 closeSockets();
-                alert(`${getRobot()} terminated his job, reload the page to start over`);
+                new Promise(resolve => setTimeout(resolve, 4000)).then();
+                alert(`${getRobot()} terminated his job, press ok to start over`);
+                window.location.reload();
             }
+            lastUpdate = update.event === 'Terminated'
         } catch (error) {
             console.error(event.data);
             alert(`Error deserializing update:${error}`);

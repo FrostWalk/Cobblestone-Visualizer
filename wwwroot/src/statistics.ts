@@ -37,7 +37,6 @@ export function setCoordinates(value: RobotCoordinate): void {
 }
 
 export function setBackpack(backpack: Backpack): void {
-    console.log(backpack);
     setStoneNumber(backpack.Rock);
     setWoodNumber(backpack.Tree);
     setTrashNumber(backpack.Garbage);
