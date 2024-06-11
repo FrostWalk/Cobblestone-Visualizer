@@ -17,7 +17,7 @@ pub(crate) fn set_robot(runner: Runner) {
 pub(crate) fn run_robot() {
     TERMINATED.store(false, SeqCst);
     let wait = get_wait();
-    
+
     tokio::spawn(async move {
         info!("Starting the robot");
         loop {
