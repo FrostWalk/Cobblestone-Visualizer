@@ -171,8 +171,8 @@ export function drawMap(world_map: (Tile | undefined)[][], coordinate: RobotCoor
             }
         }
     }
-    ctx.drawImage(ROBOT_IMAGE, (coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+    ctx.drawImage(ROBOT_IMAGE, (coordinate.row * TILE_SIZE), (coordinate.col * TILE_SIZE), TILE_SIZE, TILE_SIZE);
     ctx.strokeStyle = '#f00';
     ctx.lineWidth = 4;
-    ctx.strokeRect((coordinate.col * TILE_SIZE), (coordinate.row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+    ctx.strokeRect((coordinate.row * TILE_SIZE), (coordinate.col * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 }
